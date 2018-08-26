@@ -69,7 +69,12 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>C:\Users\vdheu\Informatique\C++\Visual Studio\Algorithms\Algorithms\Test\ThirdParty;C:\Users\vdheu\Informatique\C++\Visual Studio\Algorithms\Algorithms;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>C:\Users\vdheu\Informatique\C++\Visual Studio\Algorithms\Algorithms\Test\ThirdParty;C:\Users\vdheu\Informatique\C++\Visual Studio\Algorithms\Algorithms;$(IncludePath)</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -111,29 +116,44 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Test\main.cpp" />
+    <ClCompile Include="Test\TestDynamic.cpp" />
+    <ClCompile Include="Test\TestGraph.cpp" />
+    <ClCompile Include="Test\TestSorting.cpp" />
+    <ClCompile Include="Test\TestDataStructure.cpp" />
+    <ClInclude Include="Constants.h" />
+    <ClInclude Include="Graph\Graph.h" />
     <ClInclude Include="Dynamic\Knapsack.h" />
     <ClInclude Include="Geometry\Line.h" />
     <ClInclude Include="Geometry\Point.h" />
     <ClInclude Include="Geometry\Polygon.h" />
+    <ClInclude Include="Graph\BellmanFord.h" />
+    <ClInclude Include="Graph\BridgeAndArticulation.h" />
+    <ClInclude Include="Graph\ConnectedComponents.h" />
+    <ClInclude Include="Graph\CycleDetection.h" />
+    <ClInclude Include="Graph\Dijkstra.h" />
     <ClInclude Include="Graph\Eulerian.h" />
     <ClInclude Include="DataStructure\FenwickTree.h" />
     <ClInclude Include="Geometry\Geometry.h" />
+    <ClInclude Include="Graph\FloydWarshall.h" />
     <ClInclude Include="Graph\Kruskal.h" />
     <ClInclude Include="Graph\Prim.h" />
+    <ClInclude Include="Graph\Toposort.h" />
     <ClInclude Include="Math\BasicMath.h" />
-    <ClInclude Include="Math\FastExponent.h" />
     <ClInclude Include="Graph\MaxFlow.h" />
+    <ClInclude Include="Math\Mat.h" />
     <ClInclude Include="Math\MatrixFastExponent.h" />
     <ClInclude Include="Math\Sieve.h" />
     <ClInclude Include="Math\TortoiseAndHare.h" />
-    <ClInclude Include="Misc\BinarySearch.h" />
-    <ClInclude Include="Graph\WeightedGraph.h" />
+    <ClInclude Include="Sorting\BinarySearch.h" />
+    <ClCompile Include="Test\TestGeometry.cpp" />
+    <ClCompile Include="Test\TestMath.cpp" />
+    <ClInclude Include="Test\TestUtil.h" />
+    <ClInclude Include="Test\ThirdParty\catch.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataStructure\SegmentTree.h" />
-    <ClInclude Include="Graph\SpecialDFs.h" />
-    <ClInclude Include="Graph\Traversal.h" />
+    <ClInclude Include="Graph\BasicGraph.h" />
     <ClInclude Include="DataStructure\UnionFind.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

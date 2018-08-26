@@ -10,7 +10,7 @@ private:
 public:
 	UnionFind(int num_elements) {
 		rank.assign(num_elements, 0);
-		parent.reserve(num_elements);
+		parent.resize(num_elements);
 		for (int i = 0; i < num_elements; i++)
 			parent[i] = i;      //All separate sets, each is its own root
 	}

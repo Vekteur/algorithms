@@ -4,7 +4,6 @@
 
 using namespace std;
 
-const double pi{ atan(1) * 4 };
 const double epsilon = 1e-7;
 
 int sgn(int x) {

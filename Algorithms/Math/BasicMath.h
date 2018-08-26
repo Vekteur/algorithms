@@ -28,3 +28,14 @@ int gcd(int a, int b) {
 int lcm(int a, int b) {
 	return a * (b / gcd(a, b));
 }
+
+int nthPower(int b, int n) {
+	if (n == 0)
+		return 1;
+
+	int power = nthPower(b, n / 2);
+	power *= power;
+	if (n & 1 == 1)
+		power *= b;
+	return power;
+}

@@ -1,41 +1,40 @@
 #pragma once
 
-#include <vector>
-#include <utility>
 #include <algorithm>
 #include <functional>
 #include <queue>
 
-using pii = std::pair<int, int>;
-using ipii = std::pair<int, pii >;
+#include "Graph.h"
 
-const int MAXN{ 10'000 };
-std::vector<pii> adj[MAXN]; // Contains the adjacent nodes and their respective distance
-int taken[MAXN];
-std::priority_queue<pii, std::vector<pii>, std::greater<pii>() > pq; // Contains the smallest distances of the nodes that can be reached and their respective node
-// Minimax of a and b : compute MST and traverse it from a to b
+template<typename L>
+std::vector<int> prim(const AdjList<L>& g) {
+	std::vector<int> vis(g.size());
+	std::vector<int> pred(g.size());
+	// Shortest edges are at the top of pq
+	struct GreaterEdge {
+		bool operator()(BiEdge<L> e1, BiEdge<L> e2) { return e1.w > e2.w; }
+	};
+	std::priority_queue< BiEdge<L>, std::vector<BiEdge<L>>, GreaterEdge > pq;
 
-void process(int u) {
-	taken[u] = true;
-	for (pii v : adj[u]) {
-		if (!taken[v.first]) // Don't add edges to already processed nodes (optional but faster)
-			pq.push(std::make_pair(v.second, v.first));
-	}
-}
-
-int prim() {
-	int length = 0;
-
-	pq.push(std::make_pair(0, 0));
+	BiEdge<L> first(-1, 0);
+	first.w = 0;
+	pq.push(first);
 	while (!pq.empty()) {
-		pii top = pq.top(); pq.pop();
-		int u = top.second;
+		BiEdge<L> minEdge = pq.top(); pq.pop();
+		int u = minEdge.to;
 
 		// The priority queue can contain multiple edges to the same node but only the smallest accessible will be taken
-		if (!taken[u]) {
-			process(u);
-			length += top.first;
+		if (!vis[u]) {
+			vis[u] = true;
+			pred[u] = minEdge.from;
+			for (Edge<L> v : g.adj[u]) {
+				if (!vis[v.to]) { // Don't add edges to already processed nodes (optional but faster)
+					BiEdge<L> cand(u, v.to);
+					cand.w = v.w;
+					pq.push(cand);
+				}
+			}
 		}
 	}
-	return length;
+	return pred;
 }

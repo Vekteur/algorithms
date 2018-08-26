@@ -19,7 +19,7 @@ public:
 
 	T rsqFromStart(int i) {
 		T sum = 0;
-		for (; i > 0; i -= LSOne(i))
+		for (++i; i > 0; i -= LSOne(i))
 			sum += ft[i];
 		return sum;
 	}
@@ -29,7 +29,7 @@ public:
 	}
 
 	void update(int i, T v) {
-		for (; i < (int)ft.size(); i += LSOne(i))
+		for (++i; i < (int)ft.size(); i += LSOne(i))
 			ft[i] += v;
 	}
 };

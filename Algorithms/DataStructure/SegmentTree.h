@@ -4,10 +4,10 @@
 #include <algorithm>
 #include <iostream>
 
-template<typename T, typename Func = std::less<T>>
+template<typename T, typename Comp = std::less<T>>
 class SegmentTree {
 public:
-	SegmentTree(std::vector<T> arr, Func func = Func{});
+	SegmentTree(std::vector<T> arr, Comp comp = Comp{});
 	int query(int i, int j);
 	void update(int i, int v);
 	void print();
@@ -17,30 +17,30 @@ private:
 	int rec_query(int p, int L, int R, int i, int j);
 	void rec_update(int p, int L, int R, int i);
 
-	std::vector<T> A;
+	std::vector<T> a;
 	std::vector<int> st;
-	Func functor;
+	Comp comp;
 };
 
-template <typename T, typename Func>
-SegmentTree<T, Func>::SegmentTree(std::vector<T> arr, Func func) : A{ arr }, functor{ func } {
-	st.assign(A.size() * 4, 0);
-	rec_build(0, 0, A.size() - 1);
+template <typename T, typename Comp>
+SegmentTree<T, Comp>::SegmentTree(std::vector<T> arr, Comp comp) : a{ arr }, comp{ comp } {
+	st.assign(a.size() * 4, 0);
+	rec_build(0, 0, a.size() - 1);
 }
 
-template <typename T, typename Func>
-int SegmentTree<T, Func>::query(int i, int j) {
-	return rec_query(0, 0, A.size() - 1, i, j);
+template <typename T, typename Comp>
+int SegmentTree<T, Comp>::query(int i, int j) {
+	return rec_query(0, 0, a.size() - 1, i, j);
 }
 
-template <typename T, typename Func>
-void SegmentTree<T, Func>::update(int i, int v) {
-	A[i] = v;
-	rec_update(0, 0, A.size() - 1, i);
+template <typename T, typename Comp>
+void SegmentTree<T, Comp>::update(int i, int v) {
+	a[i] = v;
+	rec_update(0, 0, a.size() - 1, i);
 }
 
-template <typename T, typename Func>
-void SegmentTree<T, Func>::rec_build(int p, int L, int R) {
+template <typename T, typename Comp>
+void SegmentTree<T, Comp>::rec_build(int p, int L, int R) {
 	if (L == R)
 		// leaf node
 		st[p] = L;
@@ -48,17 +48,17 @@ void SegmentTree<T, Func>::rec_build(int p, int L, int R) {
 		// build children
 		rec_build(2 * p + 1, L, (L + R) / 2);
 		rec_build(2 * p + 2, (L + R) / 2 + 1, R);
-		int a1 = st[2 * p + 1];
-		int a2 = st[2 * p + 2];
-		st[p] = functor(A[a1], A[a2]) ? a1 : a2;
+		int c1 = st[2 * p + 1];
+		int c2 = st[2 * p + 2];
+		st[p] = comp(a[c1], a[c2]) ? c1 : c2;
 	}
 }
 
 // p is the index of the current node,
 // [L..R] is the current segment,
 // [i..j] is the search interval
-template <typename T, typename Func>
-int SegmentTree<T, Func>::rec_query(int p, int L, int R, int i, int j) {
+template <typename T, typename Comp>
+int SegmentTree<T, Comp>::rec_query(int p, int L, int R, int i, int j) {
 	// inside query range
 	if (i <= L && R <= j) return st[p];
 	// outside query range
@@ -66,18 +66,18 @@ int SegmentTree<T, Func>::rec_query(int p, int L, int R, int i, int j) {
 
 	// compute the min position in the left
 	// and right part of the interval
-	int a1 = rec_query(2 * p + 1, L, (L + R) / 2, i, j);
-	int a2 = rec_query(2 * p + 2, (L + R) / 2 + 1, R, i, j);
+	int c1 = rec_query(2 * p + 1, L, (L + R) / 2, i, j);
+	int c2 = rec_query(2 * p + 2, (L + R) / 2 + 1, R, i, j);
 
 	// if we try to access a segment outside of the query
-	if (a1 == -1) return a2;
-	if (a2 == -1) return a1;
-	return functor(A[a1], A[a2]) ? a1 : a2;
+	if (c1 == -1) return c2;
+	if (c2 == -1) return c1;
+	return comp(a[c1], a[c2]) ? c1 : c2;
 }
 
 // i is the node that has to be updated
-template <typename T, typename Func>
-void SegmentTree<T, Func>::rec_update(int p, int L, int R, int i) {
+template <typename T, typename Comp>
+void SegmentTree<T, Comp>::rec_update(int p, int L, int R, int i) {
 	// if leaf node
 	if (L == R) return;
 
@@ -85,14 +85,14 @@ void SegmentTree<T, Func>::rec_update(int p, int L, int R, int i) {
 	if (L <= i && i <= R) {
 		rec_update(2 * p + 1, L, (L + R) / 2, i);
 		rec_update(2 * p + 2, (L + R) / 2 + 1, R, i);
-		int a1 = st[2 * p + 1];
-		int a2 = st[2 * p + 2];
-		st[p] = functor(A[a1], A[a2]) ? a1 : a2;
+		int c1 = st[2 * p + 1];
+		int c2 = st[2 * p + 2];
+		st[p] = comp(a[c1], a[c2]) ? c1 : c2;
 	}
 }
 
-template <typename T, typename Func>
-void SegmentTree<T, Func>::print() {
+template <typename T, typename Comp>
+void SegmentTree<T, Comp>::print() {
 	cout << "-----\n";
 	int index = 0;
 	for (int iter = 1; index + iter - 1 < st.size(); iter <<= 1) {

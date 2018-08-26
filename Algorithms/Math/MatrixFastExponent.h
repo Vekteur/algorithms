@@ -1,44 +1,30 @@
 #pragma once
 
-template<int A, int B>
-using mat = array<array<int, B>, A>;
+#include "Mat.h"
 
-template<int A, int B>
-ostream& operator<<(ostream& out, mat<A, B>& m) {
-	for (int i = 0; i < A; ++i) {
-		for (int j = 0; j < B; ++j)
-			out << m[i][j] << ' ';
-		out << '\n';
-	}
-	return out;
-}
-
-template<int A, int B, int C>
-mat<A, C> multMatrices(const mat<A, B>& a, const mat<B, C>& b) {
-	mat<A, C> r{};
-	for (int i = 0; i < A; ++i)
-		for (int j = 0; j < C; ++j)
-			for (int k = 0; k < B; ++k)
-				r[i][j] += a[i][k] * b[k][j];
+Mat<int> mult(const Mat<int>& a, const Mat<int >& b) {
+	Mat<int> r{ a.size() };
+	for (int i = 0; i < a.size(); ++i)
+		for (int j = 0; j < a.size(); ++j)
+			for (int k = 0; k < a.size(); ++k)
+				r(i, j) += a(i, k) * b(k, j);
 	return r;
 }
 
-template<int A>
-mat<A, A> getIdentity() {
-	mat<A, A> r{};
-	for (int i = 0; i < A; ++i)
-		r[i][i] = 1;
+Mat<int> identityMatrix(int n) {
+	Mat<int> r{ n };
+	for (int i = 0; i < n; ++i)
+		r(i, i) = 1;
 	return r;
 }
 
-template<int A>
-mat<A, A> nthPowerMatrix(const mat<A, A> b, int n) {
+Mat<int> nthPower(const Mat<int>& b, int n) {
 	if (n == 0)
-		return getIdentity<A>();
+		return identityMatrix(b.size());
 
-	mat<A, A> power = nthPowerMatrix<A>(b, n / 2);
-	power = multMatrices<A, A, A>(power, power);
+	Mat<int> power = nthPower(b, n / 2);
+	power = mult(power, power);
 	if (n & 1 == 1)
-		power = multMatrices<A, A, A>(power, b);
+		power = mult(power, b);
 	return power;
 }

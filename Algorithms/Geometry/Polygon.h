@@ -7,92 +7,77 @@
 #include "Point.h"
 #include "Line.h"
 
-class Polygon {
-public:
-	vector<Point> points;
+struct Polygon {
+	vector<Point> m_points;
 
 	Polygon& add(Point p) {
-		points.push_back(p);
+		m_points.push_back(p);
 		return *this;
 	}
 
-	vector<Point> getPoints() const {
-		return points;
+	vector<Point>& points() {
+		return m_points;
 	}
 
-	double getPerimeter() const {
-		int s = points.size();
+	const vector<Point>& points() const {
+		return m_points;
+	}
+
+	double perimeter() const {
+		int s = m_points.size();
 		double p = 0;
-		for (int i = 0; i < points.size(); ++i)
-			p += points[i].dist(points[(i + 1) % s]);
+		for (int i = 0; i < m_points.size(); ++i)
+			p += m_points[i].dist(m_points[(i + 1) % s]);
 		return p;
 	}
 
-	double getArea() {
+	double area() {
 		double result = 0;
-		points.push_back(points[0]);
-		for (int i = 0; i < points.size() - 1; ++i)
-			result += points[i].x * points[i + 1].y - points[i + 1].x * points[i].y;
-		points.pop_back();
+		m_points.push_back(m_points[0]);
+		for (int i = 0; i < m_points.size() - 1; ++i)
+			result += m_points[i].x * m_points[i + 1].y - m_points[i + 1].x * m_points[i].y;
+		m_points.pop_back();
 		return result / 2;
 	}
 
 	bool isConvex() const // Suppose that the vertices are counter-clockwise
 	{
-		int s = points.size();
+		int s = m_points.size();
 		for (int i = 0; i < s; ++i)
-			if (orient(points[i], points[(i + 1) % s], points[(i + 2) % s]) <= 0)
+			if (orient(m_points[i], m_points[(i + 1) % s], m_points[(i + 2) % s]) <= 0)
 				return false;
 		return true;
 	}
 
 	bool contains(Point p) const {
-		int s = points.size();
+		int s = m_points.size();
 		double angle = 0;
 		for (int i = 0; i < s; ++i) {
-			angle += p.angle(points[i], points[(i + 1) % s]);
-			//cout << "Point " << i << " : " << angle * 180 / pi << '\n';
+			angle += p.angle(m_points[i], m_points[(i + 1) % s]);
 		}
-		if (eq(angle, -2 * pi))
+		if (eq(angle, -2 * PI))
 			return true;
 
 		for (int i = 0; i < s; ++i) {
-			Line seg{ points[i], points[(i + 1) % s] };
-			if (seg.a * p.x + seg.b * p.y == seg.c && p.inBox(points[i], points[(i + 1) % s]))
+			Line seg{ m_points[i], m_points[(i + 1) % s] };
+			if (seg.a * p.x + seg.b * p.y == seg.c && p.inBox(m_points[i], m_points[(i + 1) % s]))
 				return true;
 		}
 
 		return false;
 	}
 
-	struct AngleComp {
-		Point pivot;
-		AngleComp(Point _pivot) : pivot{ _pivot } {}
-
-		bool operator()(const Point& a, const Point& b) const {
-			if (orient(pivot, a, b) == 0)
-				return pivot.dist(a) < pivot.dist(b);
-
-			Point da{ a.x - pivot.x, a.y - pivot.y };
-			Point db{ b.x - pivot.x, b.y - pivot.y };
-			return(atan2(a.y, a.x) < atan2(b.y, b.x));
-		}
-	};
-
-	vector<Point> getConvexHull() {
+	vector<Point> convexHull() {
 		vector<Point> ch;
-		vector<Point> sorted = points;
+		vector<Point> sorted = m_points;
 
-		Point* lowest = &points[0];
-		for (Point p : points) {
-			if (p.y < lowest->y)
-				lowest = &p;
-			if (p.y == lowest->y)
-				if (p.x < lowest->x)
-					lowest = &p;
+		Point lowest = m_points[0];
+		for (Point p : m_points) {
+			if (p.y < lowest.y || (p.y == lowest.y && p.x < lowest.x))
+				lowest = p;
 		}
 
-		sort(sorted.begin(), sorted.end(), Polygon::AngleComp{ *lowest });
+		sort(sorted.begin(), sorted.end(), AngleComp{ lowest });
 
 		if (sorted.size() <= 3)
 			return sorted;
@@ -106,8 +91,9 @@ public:
 			if (orient(ch[s - 2], ch[s - 1], sorted[k]) >= 0) {
 				ch.push_back(sorted[k]);
 				++k;
-			} else
+			} else {
 				ch.pop_back();
+			}
 		}
 
 		return ch;
