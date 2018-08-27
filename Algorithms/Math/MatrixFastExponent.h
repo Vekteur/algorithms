@@ -18,13 +18,12 @@ Mat<int> identityMatrix(int n) {
 	return r;
 }
 
-Mat<int> nthPower(const Mat<int>& b, int n) {
+Mat<int> power(const Mat<int>& b, int n) {
 	if (n == 0)
 		return identityMatrix(b.size());
-
-	Mat<int> power = nthPower(b, n / 2);
-	power = mult(power, power);
+	Mat<int> p = power(b, n / 2);
+	p = mult(p, p);
 	if (n & 1 == 1)
-		power = mult(power, b);
-	return power;
+		p = mult(p, b);
+	return p;
 }

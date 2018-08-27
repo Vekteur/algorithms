@@ -143,6 +143,8 @@
     <ClInclude Include="Graph\MaxFlow.h" />
     <ClInclude Include="Math\Mat.h" />
     <ClInclude Include="Math\MatrixFastExponent.h" />
+    <ClInclude Include="Math\Modular.h" />
+    <ClInclude Include="Math\Prime.h" />
     <ClInclude Include="Math\Sieve.h" />
     <ClInclude Include="Math\TortoiseAndHare.h" />
     <ClInclude Include="Sorting\BinarySearch.h" />

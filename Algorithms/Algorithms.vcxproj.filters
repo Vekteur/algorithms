@@ -128,5 +128,11 @@
     <ClInclude Include="Test\TestUtil.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Math\Modular.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Prime.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
