@@ -3,6 +3,9 @@
 #include <vector>
 #include <functional>
 
+#include "DataStructure/SumArray.h"
+#include "DataStructure/DifferenceArray.h"
+#include "DataStructure/SparseTable.h"
 #include "DataStructure/FenwickTree.h"
 #include "DataStructure/SegmentTree.h"
 #include "DataStructure/UnionFind.h"
@@ -11,6 +14,25 @@ using namespace std;
 
 TEST_CASE("Data structures") {
 	vector<int> arr{ 5, 1, 2, 9, 3, 1, 8, 3 };
+	SECTION("Sum Array") {
+		REQUIRE(SumArray<int>(arr).query(2, 5) == 15);
+	}
+	SECTION("Difference array") {
+		DifferenceArray<int> da(arr);
+		REQUIRE(da.query(4) == 3);
+		da.update(2, 4, 4);
+		da.update(4, 7, -3);
+		da.update(6, 7, 11);
+		REQUIRE(da.query(4) == 4);
+	}
+	SECTION("Sparse table") {
+		SparseTable<int> st(arr);
+		REQUIRE(st.query(2, 4) == 2);
+		REQUIRE(st.query(0, 7) == 1);
+		REQUIRE(st.query(6, 7) == 3);
+		SparseTable<int> maxSt(arr, [](int a, int b) { return std::max(a, b); });
+		REQUIRE(maxSt.query(0, 7) == 9);
+	}
 	SECTION("Fenwick tree") {
 		FenwickTree<int> ft(arr.size());
 		for (int i = 0; i < arr.size(); ++i)

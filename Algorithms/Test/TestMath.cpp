@@ -10,6 +10,7 @@
 #include "Math/TortoiseAndHare.h"
 #include "Math/Prime.h"
 #include "Math/Modular.h"
+#include "Math/Combinatorics.h"
 
 using namespace std;
 
@@ -83,5 +84,13 @@ TEST_CASE("Math") {
 		tie(tail, cycle) = tortoiseAndHare(1, [&next](int x) { return next[x]; });
 		REQUIRE(tail == 2);
 		REQUIRE(cycle == 3);
+	}
+	SECTION("Combinatorics") {
+		REQUIRE(binomialCoeff(6, 4) == 15);
+		REQUIRE(multinomialCoeff(6, { 4, 2 }) == 15);
+		REQUIRE(multinomialCoeff(6, { 2, 2, 2 }) == 90);
+		REQUIRE(catalan(3) == 5);
+		REQUIRE(catalanSlow(3) == 5);
+		REQUIRE(derangements(3) == 2);
 	}
 }

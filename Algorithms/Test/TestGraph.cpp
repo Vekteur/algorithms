@@ -18,6 +18,7 @@
 #include "Graph/MaxFlow.h"
 #include "Graph/Prim.h"
 #include "Graph/Toposort.h"
+#include "Graph/PruferCode.h"
 
 using namespace std;
 
@@ -142,6 +143,17 @@ TEST_CASE("Graph") {
 			REQUIRE(bridges.size() == 1);
 			REQUIRE(bridges[0].from == 0);
 			REQUIRE(bridges[0].to == 2);
+		}
+		SECTION("Prufer code") {
+			vector<int> preds{ -1, 3, 3, 0, 1 };
+			AdjList<DefaultLabel> tree(preds.size());
+			for (int i = 0; i < preds.size(); ++i) {
+				if (preds[i] != -1) {
+					tree.addEdge(preds[i], i);
+					tree.addEdge(i, preds[i]);
+				}
+			}
+			REQUIRE(pruferCode(tree) == vector<int>{ 3, 3, 1 });
 		}
 	}
 }
