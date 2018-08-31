@@ -74,9 +74,6 @@
     <ClInclude Include="Graph\Prim.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Math\MatrixFastExponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Math\TortoiseAndHare.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -168,6 +165,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Math\GaussElimination.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Matrix.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Graph\2-SAT.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\FastFourier.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

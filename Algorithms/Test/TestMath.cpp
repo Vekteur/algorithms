@@ -3,14 +3,17 @@
 #include <iostream>
 #include <vector>
 #include <set>
+#include <bitset>
 
 #include "Math/BasicMath.h"
 #include "Math/Sieve.h"
-#include "Math/MatrixFastExponent.h"
+#include "Math/Matrix.h"
 #include "Math/TortoiseAndHare.h"
 #include "Math/Prime.h"
 #include "Math/Modular.h"
 #include "Math/Combinatorics.h"
+#include "Math/GaussElimination.h"
+#include "Math/FastFourier.h"
 
 using namespace std;
 
@@ -92,5 +95,36 @@ TEST_CASE("Math") {
 		REQUIRE(catalan(3) == 5);
 		REQUIRE(catalanSlow(3) == 5);
 		REQUIRE(derangements(3) == 2);
+	}
+	SECTION("Gauss elimination") {
+		SECTION("double") {
+			vector<vector<double>> a{ { 1, 2 }, { 3, 4 } };
+			vector<double> b{ 5, 6 };
+			vector<double> ans;
+			Solutions sol;
+			tie(sol, ans) = gauss(a, b);
+			REQUIRE(sol == Solutions::ONE);
+			vector<double> expected{ -4., 4.5 };
+			for (int i = 0; i < b.size(); ++i)
+				REQUIRE(ans[i] == Approx(expected[i]));
+		}
+		SECTION("Mod 2") {
+			vector<bitset<3>> a{ { 0b110 }, { 0b101 } };
+			bitset<2> ans;
+			Solutions sol;
+			tie(sol, ans) = gaussMod2<2>(a);
+			REQUIRE(ans == bitset<2>{ 0b11 });
+		}
+	}
+	SECTION("Determinant") {
+		vector<vector<double>> a{ { 1, 2 }, { 3, 4 } };
+		REQUIRE(determinant(a) == Approx(-2));
+	}
+	SECTION("Fast Fourier Transform") {
+		vector<int> pol1{ 1, 2, 0, 1 };
+		vector<int> pol2{ 3, 1, 4, 1 };
+		vector<int> expected{ 3, 7, 6, 12, 3, 4, 1, 0 };
+		REQUIRE(multiplyPolynoms(pol1, pol2) == expected);
+		REQUIRE(multiplyPolynomsNaive(pol1, pol2) == expected);
 	}
 }

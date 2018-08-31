@@ -19,6 +19,7 @@
 #include "Graph/Prim.h"
 #include "Graph/Toposort.h"
 #include "Graph/PruferCode.h"
+#include "Graph/2-SAT.h"
 
 using namespace std;
 
@@ -100,6 +101,15 @@ TEST_CASE("Graph") {
 			mappedG.removeEdge(2, 3);
 			mappedG.addEdge(2, 3, { 5 });
 			REQUIRE(maxflowEK(mappedG, 0, 3) == 4);
+		}
+		SECTION("2-SAT") {
+			TwoSAT twoSAT;
+			twoSAT.addDisjunction({ { 0, true }, { 1, false } });
+			twoSAT.addDisjunction({ { 0, false }, { 1, true } });
+			twoSAT.addDisjunction({ { 0, false }, { 1, false } });
+			twoSAT.addDisjunction({ { 0, true }, { 2, false } });
+			vector<bool> expected{ false, false, false };
+			REQUIRE(twoSAT.findAssigment() == expected);
 		}
 	}
 
