@@ -2,34 +2,79 @@
 
 #include <vector>
 #include <set>
+#include <functional>
 
 #include "Graph.h"
 
 template<typename L>
 std::vector<int> pruferCode(const AdjList<L>& g) {
-	std::vector<int> degree(g.size());
-	std::vector<bool> killed(g.size(), false);
-	std::set<int> leaves;
-	for (int i = 0; i < g.size(); ++i) {
-		degree[i] = g.adj[i].size();
-		if (degree[i] == 1)
-			leaves.insert(i);
-	}
-	std::vector<int> code;
-	for (int k = 0; k < g.size() - 2; ++k) {
-		int minLeave = *leaves.begin();
-		leaves.erase(leaves.begin());
-		killed[minLeave] = true;
-		int parent;
-		for (Edge<L> e : g.adj[minLeave]) {
-			if (!killed[e.to]) {
-				parent = e.to;
-				break;
+	int n = g.size();
+	// Build the parent tree with n - 1 as the root
+	std::vector<int> parent(g.size(), -1);
+	std::function<void(int)> dfs = [&dfs, &g, &parent](int u) {
+		for (Edge<L> v : g.adj[u]) {
+			if (parent[v.to] == -1) {
+				parent[v.to] = u;
+				dfs(v.to);
 			}
 		}
-		if (--degree[parent] == 1)
-			leaves.insert(parent);
-		code.push_back(parent);
+	};
+	dfs(n - 1);
+
+	std::vector<int> degree(n);
+	for (int i = 0; i < n; ++i)
+		degree[i] = g.adj[i].size();
+
+	int ptr = -1;
+	for (int i = 0; i < n; ++i) {
+		if (degree[i] == 1) {
+			ptr = i;
+			break;
+		}
+	}
+
+	// Invariant : there exists at most one leaf that is <= ptr
+	int leaf = ptr;
+	std::vector<int> code;
+	for (int k = 0; k < n - 2; ++k) {
+		int next = parent[leaf];
+		code.push_back(next);
+		--degree[next];
+		if (degree[next] == 1 && next < ptr) {
+			leaf = next;
+		} else {
+			while (degree[++ptr] != 1);
+			leaf = ptr;
+		}
 	}
 	return code;
+}
+
+namespace {
+AdjList<> pruferTree(const std::vector<int>& code) {
+
+	int n = code.size() + 2;
+	std::vector<int> degree(n, 1);
+	for (int u : code)
+		++degree[u];
+
+	int ptr = -1;
+	while (degree[++ptr] != 1);
+
+	int leaf = ptr;
+	AdjList<> g{ n };
+	for (int u : code) {
+		g.addEdge(leaf, u);
+		g.addEdge(u, leaf);
+		if (--degree[u] == 1 && u < ptr) {
+			leaf = u;
+		} else {
+			while (degree[++ptr] != 1);
+			leaf = ptr;
+		}
+	}
+	g.addEdge(leaf, n - 1);
+	g.addEdge(n - 1, leaf);
+	return g;
+}
 }

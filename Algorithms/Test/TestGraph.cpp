@@ -163,7 +163,9 @@ TEST_CASE("Graph") {
 					tree.addEdge(i, preds[i]);
 				}
 			}
-			REQUIRE(pruferCode(tree) == vector<int>{ 3, 3, 1 });
+			vector<int> code{ 3, 3, 1 };
+			REQUIRE(pruferCode(tree) == code);
+			REQUIRE(pruferCode(pruferTree(code)) == code);
 		}
 	}
 }

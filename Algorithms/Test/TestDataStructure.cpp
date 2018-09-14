@@ -43,13 +43,15 @@ TEST_CASE("Data structures") {
 	SECTION("Segment tree") {
 		SECTION("Min") {
 			SegmentTree<int> st(arr);
-			REQUIRE(st.query(2, 6) == 5);
+			REQUIRE(st.query(2, 6) == 1);
 			st.update(4, 0);
 			st.update(2, 6);
-			REQUIRE(st.query(2, 6) == 4);
+			REQUIRE(st.query(2, 6) == 0);
 		}
 		SECTION("Max") {
-			SegmentTree<int, greater<int>> st(arr);
+			vector<int> maxIndices(arr.size());
+			std::iota(maxIndices.begin(), maxIndices.end(), 0);
+			SegmentTree<int> st(maxIndices, [&arr](int i1, int i2) { return arr[i1] >= arr[i2] ? i1 : i2; });
 			REQUIRE(st.query(2, 6) == 3);
 		}
 	}

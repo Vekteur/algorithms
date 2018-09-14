@@ -41,6 +41,7 @@ std::tuple<Solutions, std::vector<double>> gauss(std::vector<std::vector<double>
 	for (int i = 0; i < m; ++i)
 		if (where[i] != -1)
 			ans[i] = a[where[i]][m] / a[where[i]][i];
+
 	// Check if there is a solution
 	for (int i = 0; i < n; ++i) {
 		double sum = 0;
