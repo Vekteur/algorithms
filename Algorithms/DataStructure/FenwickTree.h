@@ -6,20 +6,20 @@ template<typename T>
 class FenwickTree {
 private:
 	std::vector<T> ft;
-	int m_size;
+	int size;
 
-	int LSOne(int i) {
+	int lsOne(int i) {
 		return i & (-i);
 	}
 
 public:
-	FenwickTree(int size = 0) : m_size{ size } {
-		ft.assign(m_size + 1, 0);
+	FenwickTree(int size = 0) : size{ size } {
+		ft.assign(size + 1, 0);
 	}
 
 	T rsqFromStart(int i) {
 		T sum = 0;
-		for (++i; i > 0; i -= LSOne(i))
+		for (++i; i > 0; i -= lsOne(i))
 			sum += ft[i];
 		return sum;
 	}
@@ -29,7 +29,7 @@ public:
 	}
 
 	void update(int i, T v) {
-		for (++i; i < (int)ft.size(); i += LSOne(i))
+		for (++i; i < int(ft.size()); i += lsOne(i))
 			ft[i] += v;
 	}
 };

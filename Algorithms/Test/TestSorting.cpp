@@ -13,9 +13,10 @@ using namespace std;
 
 TEST_CASE("Sorting") {
 	SECTION("Binary seach") {
-		vector<int> v{ 1, 2, 5, 5, 6, 9, 14 };
-		REQUIRE(binary_search(v, 5) == 2);
-		REQUIRE(binary_search(v, 4) == -1);
+		vector<int> arr{ 1, 2, 5, 5, 6, 9, 14 };
+		REQUIRE(binarySearch(0, int(arr.size()) - 1, [&arr](int i) { return arr[i] <= 5; }) == 3);
+		REQUIRE(binarySearch(0, int(arr.size()) - 1, [&arr](int i) { return arr[i] <= 8; }) == 4);
+		REQUIRE(binarySearch(0., 100., [](double x) { return x * x < 9.; }) == Approx(3.));
 	}
 	SECTION("Ternary search") {
 		auto maxF = [](double x) { return -abs(2 * (x - 3)) + 5; };

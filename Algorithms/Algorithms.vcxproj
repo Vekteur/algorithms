@@ -124,6 +124,8 @@
     <ClCompile Include="Test\TestDataStructure.cpp" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="DataStructure\DifferenceArray.h" />
+    <ClInclude Include="DataStructure\LazySegmentTree.h" />
+    <ClInclude Include="DataStructure\SegmentTree2D.h" />
     <ClInclude Include="DataStructure\SparseTable.h" />
     <ClInclude Include="DataStructure\SumArray.h" />
     <ClInclude Include="Graph\2-SAT.h" />

@@ -33,8 +33,8 @@ std::vector<int> pruferCode(const AdjList<L>& g) {
 		}
 	}
 
-	// Invariant : there exists at most one leaf that is <= ptr
 	int leaf = ptr;
+	// Invariant : there exists at most one leaf that is <= ptr
 	std::vector<int> code;
 	for (int k = 0; k < n - 2; ++k) {
 		int next = parent[leaf];
@@ -62,6 +62,7 @@ AdjList<> pruferTree(const std::vector<int>& code) {
 	while (degree[++ptr] != 1);
 
 	int leaf = ptr;
+	// Invariant : there exists at most one leaf that is <= ptr
 	AdjList<> g{ n };
 	for (int u : code) {
 		g.addEdge(leaf, u);

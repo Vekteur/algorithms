@@ -12,9 +12,9 @@ public:
 		std::adjacent_difference(a.begin(), a.end(), diff.begin());
 	}
 
-	void update(int i, int j, int v) {
+	void update(int i, int j, T v) {
 		diff[i] += v;
-		if (j + 1 != diff.size())
+		if (j + 1 != int(diff.size()))
 			diff[j + 1] -= v;
 	}
 

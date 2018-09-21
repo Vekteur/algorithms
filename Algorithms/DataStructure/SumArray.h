@@ -12,6 +12,11 @@ public:
 		std::partial_sum(a.begin(), a.end(), acc.begin());
 	}
 
+	void update(int k, T v) {
+		for (int i = k; i < int(acc.size()); ++i)
+			acc[i] += v;
+	}
+
 	T query(int l, int r) {
 		return acc[r] - (l == 0 ? 0 : acc[l - 1]);
 	}

@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <algorithm>
+#include <functional>
 #include <iostream>
 
 template<typename T>
@@ -23,35 +24,34 @@ private:
 	}
 
 	// p is the index of the current node
-	// [l..r] is the current segment
-	// [i..j] is the search interval
-	T rec_query(int p, int l, int r, int i, int j) {
-		if (i <= l && r <= j)
+	// [l..r] is the current segment in the segment tree array
+	// [sl..sr] is the search interval in the original array
+	T rec_query(int p, int l, int r, int sl, int sr) {
+		if (sl <= l && r <= sr) {
 			return st[p];
-		int m = (l + r) / 2;
-		T c1, c2;
-		if (i <= m)
-			c1 = rec_query(2 * p + 1, l, m, i, j);
-		if (j > m)
-			c2 = rec_query(2 * p + 2, m + 1, r, i, j);
-		if (j <= m)
-			return c1;
-		else if (i > m)
-			return c2;
-		else
-			return combine(c1, c2);
+		} else {
+			int m = (l + r) / 2;
+			if (sr <= m)
+				return rec_query(2 * p + 1, l, m, sl, sr);
+			else if (sl > m)
+				return rec_query(2 * p + 2, m + 1, r, sl, sr);
+			else
+				return combine(rec_query(2 * p + 1, l, m, sl, sr),
+					rec_query(2 * p + 2, m + 1, r, sl, sr));
+		}
 	}
 
-	// i is the node that will be updated
-	void rec_update(int p, int l, int r, int i, int v) {
+	// s is the index in the original array of the value that will be updated
+	void rec_update(int p, int l, int r, int s, T v) {
 		if (l == r) {
 			st[p] = v;
-		} else if (l <= i && i <= r) {
+		} else if (l <= s && s <= r) {
 			int m = (l + r) / 2;
-			if (i <= m)
-				rec_update(2 * p + 1, l, m, i, v);
+			if (s <= m)
+				rec_update(2 * p + 1, l, m, s, v);
 			else
-				rec_update(2 * p + 2, m + 1, r, i, v);
+				rec_update(2 * p + 2, m + 1, r, s, v);
+			// A node that is not a leaf has always two valid children
 			st[p] = combine(st[2 * p + 1], st[2 * p + 2]);
 		}
 	}
@@ -60,23 +60,23 @@ public:
 	SegmentTree(const std::vector<T>& a, std::function<T(T, T)> combine = [](T c1, T c2) { return min(c1, c2); })
 		: n{ int(a.size()) }, combine{ combine } {
 
-		st.assign(n * 4, 0);
+		st.assign(n * 4, 0); // Could be reduced to 2 * n ?
 		rec_build(0, 0, n - 1, a);
 	}
 
-	T query(int i, int j) {
-		return rec_query(0, 0, n - 1, i, j);
+	T query(int sl, int sr) {
+		return rec_query(0, 0, n - 1, sl, sr);
 	}
 
-	void update(int i, int v) {
-		rec_update(0, 0, n - 1, i, v);
+	void update(int s, T v) {
+		rec_update(0, 0, n - 1, s, v);
 	}
 
-	friend std::ostream& operator<<(std::ostream& out, const SegmentTree& s) {
+	friend std::ostream& operator<<(std::ostream& out, const SegmentTree& seg) {
 		int index = 0;
-		for (int iter = 1; index + iter - 1 < s.st.size(); iter <<= 1) {
+		for (int iter = 1; index + iter - 1 < seg.st.size(); iter <<= 1) {
 			for (int i = 0; i < iter; ++i)
-				out << s.st[index + i] << ' ';
+				out << seg.st[index + i] << ' ';
 			out << '\n';
 			index += iter;
 		}

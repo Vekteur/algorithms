@@ -17,23 +17,30 @@ public:
 		: logs(a.size() + 1), f{ f } {
 
 		logs[1] = 0;
-		for (int i = 2; i <= a.size(); ++i)
-			logs[i] = logs[i / 2] + 1;
+		for (int k = 2; k <= int(a.size()); ++k)
+			logs[k] = logs[k >> 1] + 1;
 
-		double maxLog = logs[a.size()];
+		int maxLog = logs[int(a.size())];
 		st = std::vector<std::vector<T>>(a.size(), std::vector<T>(maxLog + 1));
 
-		for (int i = 0; i < st.size(); ++i)
+		for (int i = 0; i < int(st.size()); ++i)
 			st[i][0] = a[i];
 
-		// The range [i, i + 2^j[ splits in [i, i + 2^(j - 1)[ and [i + 2^(j - 1), i + 2^j[
-		for (int j = 1; j <= maxLog; ++j)
-			for (int i = 0; i + (1 << j) <= st.size(); ++i)
-				st[i][j] = f(st[i][j - 1], st[i + (1 << (j - 1))][j - 1]);
+		// The range [i, i + 2^d[ splits in [i, i + 2^(d - 1)[ and [i + 2^(d - 1), i + 2^d[
+		for (int d = 1; d <= maxLog; ++d)
+			// i + 2^d - 1 (last index of the sequence) must always be valid
+			for (int i = 0; i + (1 << d) - 1 < int(st.size()); ++i)
+				st[i][d] = f(st[i][d - 1], st[i + (1 << (d - 1))][d - 1]);
 	}
 
 	T query(int l, int r) {
-		int j = logs[r - l + 1];
-		return f(st[l][j], st[r - (1 << j) + 1][j]);
+		int d = logs[r - l + 1];
+		return f(st[l][d], st[r - (1 << d) + 1][d]);
+	}
+
+	void update(int k, T v) {
+		for (int d = 0; d <= logs[int(st.size())]; ++d)
+			for (int i = max(0, k - (1 << d) + 1); i < min(int(st.size()) - (1 << d) + 1, k + 1); ++i)
+				st[i][d] = f(st[i][d], v);
 	}
 };
