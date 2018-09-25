@@ -7,6 +7,7 @@
 #include "Constants.h"
 
 namespace {
+// See http://e-maxx.ru/algo/linear_systems_gauss
 std::tuple<Solutions, std::vector<double>> gauss(std::vector<std::vector<double>> a, const std::vector<double>& b) {
 	const double epsilon = 1e-7;
 	int n = int(a.size());
@@ -42,7 +43,7 @@ std::tuple<Solutions, std::vector<double>> gauss(std::vector<std::vector<double>
 		if (where[i] != -1)
 			ans[i] = a[where[i]][m] / a[where[i]][i];
 
-	// Check if there is a solution
+	// Check if there is a unique solution
 	for (int i = 0; i < n; ++i) {
 		double sum = 0;
 		for (int j = 0; j < m; ++j)
@@ -59,6 +60,7 @@ std::tuple<Solutions, std::vector<double>> gauss(std::vector<std::vector<double>
 }
 }
 
+// See http://e-maxx.ru/algo/linear_systems_gauss
 template<int M>
 std::tuple<Solutions, std::bitset<M>> gaussMod2(std::vector<std::bitset<M + 1>> a) {
 	int n = int(a.size());
@@ -91,7 +93,7 @@ std::tuple<Solutions, std::bitset<M>> gaussMod2(std::vector<std::bitset<M + 1>> 
 	for (int i = 0; i < n; ++i) {
 		bool sum = 0;
 		for (int j = 0; j < m; ++j)
-			sum ^= ans[j] * a[i][j];
+			sum ^= bool(ans[j] * a[i][j]);
 		if (sum ^ a[i][m])
 			return { Solutions::ZERO, ans };
 	}
@@ -102,6 +104,7 @@ std::tuple<Solutions, std::bitset<M>> gaussMod2(std::vector<std::bitset<M + 1>> 
 	return { Solutions::ONE, ans };
 }
 
+// See http://e-maxx.ru/algo/determinant_gauss
 double determinant(std::vector<std::vector<double>> a) {
 	const double epsilon = 1e-7;
 	int n = a.size();

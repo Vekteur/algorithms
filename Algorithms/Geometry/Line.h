@@ -14,6 +14,10 @@ struct Line {
 		c = -(a * s.x + b * s.y);
 	}
 
+	bool contains(Point p) const {
+		return eq(a * p.x + b * p.y, c);
+	}
+
 	double dist(Point p) const {
 		return abs(a * p.x + b * p.y + c) / sqrt(a * a + b * b);
 	}

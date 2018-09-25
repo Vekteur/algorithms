@@ -34,19 +34,13 @@ public:
 		AdjList<> gInv = invertAdjList(g);
 		std::vector<int> SCCindices(g.size(), -1);
 
-		std::function<void(int, int)> dfs = [&dfs, &gInv, &SCCindices](int u, int SCCindex) {
-			SCCindices[u] = SCCindex;
-			for (Edge<> v : gInv.adj[u]) {
-				if (SCCindices[v.to] == -1)
-					dfs(v.to, SCCindex);
-			}
-		};
-		int SCCindex = 0;
-		for (int u : toposortDfs(g)) {
-			if (SCCindices[u] == -1) {
-				dfs(u, SCCindex++);
-			}
+		int sccId = 0;
+		for (const std::vector<int>& scc : stronglyConnectedComponents(g)) {
+			for (int u : scc)
+				SCCindices[u] = sccId;
+			++sccId;
 		}
+
 		std::vector<bool> assignment(g.size() / 2, false);
 		for (int i = 0; i < g.size(); i += 2) {
 			if (SCCindices[i] == SCCindices[i + 1])

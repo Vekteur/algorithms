@@ -11,7 +11,6 @@ std::vector<int> toposortInDegree(const AdjList<L>& g) {
 	std::queue<int> zeroIn; // All nodes that have zero incoming edges
 	std::vector<int> toposort;
 
-	// Compute inDegree and zeroIn
 	for (int u = 0; u < g.size(); ++u)
 		for (Edge<L> v : g.adj[u])
 			++inDegree[v.to];
@@ -20,14 +19,12 @@ std::vector<int> toposortInDegree(const AdjList<L>& g) {
 		if (inDegree[u] == 0)
 			zeroIn.push(u);
 
-	// Compute toposort
 	while (!zeroIn.empty()) {
 		int u = zeroIn.front(); zeroIn.pop();
 		toposort.push_back(u);
 
 		for (Edge<L> v : g.adj[u]) {
-			--inDegree[v.to];
-			if (inDegree[v.to] == 0)
+			if (--inDegree[v.to] == 0)
 				zeroIn.push(v.to);
 		}
 	}

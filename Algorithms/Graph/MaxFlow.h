@@ -10,44 +10,41 @@
 
 template<typename L>
 int maxflowEK(MappedAdjList<L> g, int source, int sink) {
-	int flow = 0;
-	int pcap;
-
 	std::function<int()> augmentBFS = [&g, &source, &sink]() {
-		// Init BFS
+		std::vector<int> pred(g.size(), -1);
+		int cap = INF;
 		std::queue<int> q;
-		std::vector<int> p(g.size(), -1); // Parents
-		std::vector<int> pcap(g.size()); // Parents capacity
-		pcap[source] = INF; // We want the maximum flow from the source
 		q.push(source);
 		// Compute path
-		while (p[sink] == -1 && !q.empty()) {
+		while (!q.empty() && pred[sink] == -1) {
 			int u = q.front(); q.pop();
 			for (std::pair<int, L> e : g.adj[u]) {
 				int v = e.first;
-				// If the weight is not 0 in the residual graph and v has no parent
-				if (e.second.w > 0 && p[v] == -1) {
-					p[v] = u; // Modify parent
-					pcap[v] = min(pcap[u], e.second.w); // Modify the capacity of the parent
+				if (e.second.w != 0 && pred[v] == -1) {
+					pred[v] = u;
+					cap = min(cap, e.second.w);
 					q.push(v);
 				}
 			}
 		}
-		if (p[sink] == -1) return -1;
-		//Update graph
-		int cur = sink;
-		while (cur != source) {
-			int prev = p[cur];
-			// g[prev][cur] always exists
-			g.adj[prev][cur].w -= pcap[sink]; // Decrease the capacity of the augmenting path from source to sink
-			// g[cur][prev] is 0 if it doesn't exist
-			g.adj[cur][prev].w += pcap[sink]; // Increase the capacity of the augmenting path from sink to source
-			cur = prev;
+		if (pred[sink] == -1)
+			return -1;
+		// Update graph
+		int curr = sink;
+		while (curr != source) {
+			int prev = pred[curr];
+			// adj[prev][cur] is an edge of the path
+			g.adj[prev][curr].w -= cap;
+			// adj[cur][prev] is initialized to 0 if it doesn't exist
+			g.adj[curr][prev].w += cap;
+			curr = prev;
 		}
-		return pcap[sink];
+		return cap;
 	};
 
-	while ((pcap = augmentBFS()) != -1)
-		flow += pcap;
-	return flow;
+	int cap;
+	int maxFlow = 0;
+	while ((cap = augmentBFS()) != -1)
+		maxFlow += cap;
+	return maxFlow;
 }

@@ -5,7 +5,7 @@
 #include "Geometry.h"
 #include "Constants.h"
 
-class Point;
+struct Point;
 
 double orient(Point, Point, Point);
 

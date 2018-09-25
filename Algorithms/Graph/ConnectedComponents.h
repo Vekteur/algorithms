@@ -27,26 +27,26 @@ bool isConnected(const AdjList<L>& g) {
 
 template<typename L>
 std::vector<std::vector<int>> connectedComponents(const AdjList<L>& g) {
-	std::vector<std::vector<int>> CCs;
+	std::vector<std::vector<int>> ccs;
 	std::vector<int> vis(g.size(), false);
 	for (int u = 0; u < g.size(); ++u) {
 		if (!vis[u]) {
-			std::vector<int> CC;
+			std::vector<int> cc;
 
-			std::function<void(int)> dfs = [&g, &dfs, &CC, &vis](int u) {
+			std::function<void(int)> dfs = [&g, &dfs, &cc, &vis](int u) {
 				if (vis[u])
 					return;
 				vis[u] = true;
-				CC.push_back(u);
+				cc.push_back(u);
 				for (Edge<L> v : g.adj[u])
 					dfs(v.to);
 			};
 			dfs(u);
 
-			CCs.push_back(CC);
+			ccs.push_back(cc);
 		}
 	}
-	return CCs;
+	return ccs;
 }
 
 template<typename L>
@@ -61,28 +61,28 @@ AdjList<L> invertAdjList(const AdjList<L> g) {
 }
 
 template<typename L>
-std::vector<std::vector<int>> SCCKosaraju(const AdjList<L>& g) {
+std::vector<std::vector<int>> stronglyConnectedComponents(const AdjList<L>& g) {
 	std::vector<int> toposort = toposortDfs(g);
 	std::vector<int> vis(g.size(), false);
 
 	AdjList<L> gInv = invertAdjList(g);
-	std::vector<std::vector<int>> SCCs;
+	std::vector<std::vector<int>> sccs;
 
 	for (int u : toposort) {
 		if (!vis[u]) {
-			std::vector<int> SCC;
-			std::function<void(int)> dfs = [&gInv, &dfs, &vis, &SCC](int u) {
+			std::vector<int> scc;
+			std::function<void(int)> dfs = [&gInv, &dfs, &vis, &scc](int u) {
 				if (vis[u])
 					return;
 				vis[u] = true;
-				SCC.push_back(u);
+				scc.push_back(u);
 				for (Edge<L> v : gInv.adj[u])
 					dfs(v.to);
 			};
 			dfs(u);
-			SCCs.push_back(SCC);
+			sccs.push_back(scc);
 		}
 	}
 
-	return SCCs;
+	return sccs;
 }

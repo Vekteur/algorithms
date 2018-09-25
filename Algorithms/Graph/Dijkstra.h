@@ -11,28 +11,24 @@ std::tuple<std::vector<int>, std::vector<int>> dijkstra(const AdjList<L>& g, int
 	std::vector<int> minDist(g.size(), -1);
 	std::vector<int> pred(g.size(), -1);
 
+	using SavedEdge = BiEdge<WeightLabel>;
 	struct GreaterEdge {
-		bool operator()(const BiEdge<L>& a, const BiEdge<L>& b) { return a.w > b.w; }
+		bool operator()(const SavedEdge& e1, const SavedEdge& e2) { return e1.w > e2.w; }
 	};
-	std::priority_queue < BiEdge<L>, std::vector<BiEdge<L>>, GreaterEdge > pq;
-	BiEdge<L> first(-1, start);
-	first.w = 0;
-	pq.push(first);
+	std::priority_queue < SavedEdge, std::vector<SavedEdge>, GreaterEdge > pq;
+	pq.push({ -1, start, { 0 } });
 
 	while (!pq.empty()) {
-		BiEdge<L> nearest = pq.top(); pq.pop();
+		SavedEdge nearest = pq.top(); pq.pop();
 		int u = nearest.to;
-
+		// Only process unvisited nodes
 		if (minDist[u] == -1) {
-			minDist[u] = nearest.w; // The unvisited nodes are at distance -1
+			minDist[u] = nearest.w;
 			pred[u] = nearest.from;
 			for (Edge<L> v : g.adj[u]) {
-				int dist = v.w + nearest.w;
+				// Don't push already visited nodes (optional but faster)
 				if (minDist[v.to] == -1) {
-					// If not already visited (optional but faster)
-					BiEdge<L> cand(u, v.to);
-					cand.w = dist;
-					pq.push(cand);
+					pq.push({ u, v.to, { nearest.w + v.w } });
 				}
 			}
 		}

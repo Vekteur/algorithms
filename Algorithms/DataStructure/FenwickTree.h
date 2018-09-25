@@ -6,14 +6,13 @@ template<typename T>
 class FenwickTree {
 private:
 	std::vector<T> ft;
-	int size;
 
 	int lsOne(int i) {
 		return i & (-i);
 	}
 
 public:
-	FenwickTree(int size = 0) : size{ size } {
+	FenwickTree(int size = 0) {
 		ft.assign(size + 1, 0);
 	}
 

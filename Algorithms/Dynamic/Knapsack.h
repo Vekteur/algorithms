@@ -2,7 +2,6 @@
 
 #include <vector>
 #include <algorithm>
-#include <functional>
 
 namespace {
 struct Obj { int w, v; };

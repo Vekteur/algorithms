@@ -8,8 +8,8 @@ int ternarySearch(int low, int high, std::function<int(int)> f,
 	std::function<bool(int, int)> comp = std::less<int>{}) {
 
 	while (high - low >= 3) {
-		double mid1 = low + (high - low) / 3;
-		double mid2 = high - (high - low) / 3;
+		int mid1 = low + (high - low) / 3;
+		int mid2 = high - (high - low) / 3;
 		if (comp(f(mid1), f(mid2)))
 			low = mid1;
 		else

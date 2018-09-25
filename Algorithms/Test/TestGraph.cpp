@@ -36,7 +36,7 @@ TEST_CASE("Graph") {
 		}
 		SECTION("Cycle detection") {
 			REQUIRE(hasCycle(g));
-			g.adj[1].clear();
+			g.removeEdge(1, 2);
 			REQUIRE(!hasCycle(g));
 		}
 		SECTION("Dijkstra") {
@@ -53,7 +53,7 @@ TEST_CASE("Graph") {
 			REQUIRE(pred[3] == 2);
 			REQUIRE(bellmanFordBacktrack(pred, 0, 3).size() == 3);
 			REQUIRE(bellmanFordCheckCycle(g, minDist) == -1);
-			g.adj[1].clear();
+			g.removeEdge(1, 2);
 			g.addEdge(1, 2, { -4 });
 			tie(minDist, pred) = bellmanFordDistances(g, 0);
 			REQUIRE(bellmanFordCheckCycle(g, minDist) != -1);
@@ -61,13 +61,17 @@ TEST_CASE("Graph") {
 		SECTION("Floyd-Warshall") {
 			AdjMat<WeightLabel> mat(4, { INF });
 			for (auto edge : edges) {
-				mat.addEdge(edge.from, edge.to, { edge.w });
+				mat.setEdge(edge.from, edge.to, { edge.w });
 			}
 			AdjMat<WeightLabel> minDist;
-			AdjMat<int> next;
+			AdjMat<Edge<>> next;
 			tie(minDist, next) = floydWarshall(mat);
 			REQUIRE(minDist(0, 3).w == 4);
 			REQUIRE(floydWarshallPath(next, 0, 3).size() == 3);
+			mat.setEdge(1, 2, { -4 });
+			tie(minDist, next) = floydWarshall(mat);
+			floydWarshallInfiniteSorthestPaths(minDist);
+			REQUIRE(minDist(0, 3).w == -INF);
 		}
 		SECTION("Eulerian") {
 			REQUIRE(!containsEulerianPath(g));
@@ -91,7 +95,7 @@ TEST_CASE("Graph") {
 			REQUIRE(toposortDfs(g).size() == 4);
 		}
 		SECTION("Strongly connected components") {
-			REQUIRE(SCCKosaraju(g).size() == 2);
+			REQUIRE(stronglyConnectedComponents(g).size() == 2);
 		}
 		SECTION("Max flow") {
 			MappedAdjList<WeightLabel> mappedG(edges.size());
@@ -119,7 +123,7 @@ TEST_CASE("Graph") {
 			g.addEdge(edge.to, edge.from, { edge.w });
 		}
 		SECTION("Prim") {
-			vector<int> pred = prim(g);
+			vector<int> pred = prim(g, 0);
 			vector<int> weights;
 			for (int u = 0; u < (int) pred.size(); ++u)
 				if (pred[u] != -1)
@@ -147,7 +151,7 @@ TEST_CASE("Graph") {
 			g.removeEdge(1, 0);
 			std::vector<int> articulationPoints;
 			std::vector<BiEdge<>> bridges;
-			tie(articulationPoints, bridges) = bridgesAndArticulationPoints(g, 0);
+			tie(articulationPoints, bridges) = bridgesAndArticulationPoints(g);
 			REQUIRE(articulationPoints.size() == 1);
 			REQUIRE(articulationPoints[0] == 2);
 			REQUIRE(bridges.size() == 1);
@@ -157,7 +161,7 @@ TEST_CASE("Graph") {
 		SECTION("Prufer code") {
 			vector<int> preds{ -1, 3, 3, 0, 1 };
 			AdjList<DefaultLabel> tree(preds.size());
-			for (int i = 0; i < preds.size(); ++i) {
+			for (int i = 0; i < int(preds.size()); ++i) {
 				if (preds[i] != -1) {
 					tree.addEdge(preds[i], i);
 					tree.addEdge(i, preds[i]);

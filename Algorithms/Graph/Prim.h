@@ -7,31 +7,28 @@
 #include "Graph.h"
 
 template<typename L>
-std::vector<int> prim(const AdjList<L>& g) {
+std::vector<int> prim(const AdjList<L>& g, int start) {
 	std::vector<int> vis(g.size());
 	std::vector<int> pred(g.size());
-	// Shortest edges are at the top of pq
+
+	using SavedEdge = BiEdge<WeightLabel>;
 	struct GreaterEdge {
-		bool operator()(BiEdge<L> e1, BiEdge<L> e2) { return e1.w > e2.w; }
+		bool operator()(const SavedEdge& e1, const SavedEdge& e2) { return e1.w > e2.w; }
 	};
-	std::priority_queue< BiEdge<L>, std::vector<BiEdge<L>>, GreaterEdge > pq;
+	std::priority_queue < SavedEdge, std::vector<SavedEdge>, GreaterEdge > pq;
+	pq.push({ -1, start, { 0 } });
 
-	BiEdge<L> first(-1, 0);
-	first.w = 0;
-	pq.push(first);
 	while (!pq.empty()) {
-		BiEdge<L> minEdge = pq.top(); pq.pop();
+		SavedEdge minEdge = pq.top(); pq.pop();
 		int u = minEdge.to;
-
-		// The priority queue can contain multiple edges to the same node but only the smallest accessible will be taken
+		// Only process unvisited nodes
 		if (!vis[u]) {
 			vis[u] = true;
 			pred[u] = minEdge.from;
 			for (Edge<L> v : g.adj[u]) {
-				if (!vis[v.to]) { // Don't add edges to already processed nodes (optional but faster)
-					BiEdge<L> cand(u, v.to);
-					cand.w = v.w;
-					pq.push(cand);
+				// Don't push already visited nodes (optional but faster)
+				if (!vis[v.to]) {
+					pq.push({ u, v.to, { v.w } });
 				}
 			}
 		}

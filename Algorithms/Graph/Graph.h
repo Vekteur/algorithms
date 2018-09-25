@@ -8,10 +8,6 @@
 
 struct DefaultLabel { };
 
-struct SourceLabel {
-	int from;
-};
-
 struct WeightLabel {
 	int w;
 };
@@ -51,7 +47,7 @@ struct AdjList {
 		}
 	}
 
-	L operator()(int from, int to) {
+	L operator()(int from, int to) const {
 		for (auto e : adj[from])
 			if (e.to == to)
 				return e;
@@ -91,7 +87,7 @@ template<typename L = DefaultLabel>
 struct AdjMat : Mat<L> {
 	AdjMat(int n = 0, L defaultValue = L()) : Mat<L>(n, defaultValue) { }
 
-	void addEdge(int row, int col, L label = L()) {
+	void setEdge(int row, int col, L label = L()) {
 		(*this)(row, col) = label;
 	}
 };

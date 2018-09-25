@@ -36,9 +36,16 @@ TEST_CASE("Math") {
 		REQUIRE(productOfFactors(12) == 1 * 2 * 3 * 4 * 6 * 12);
 		REQUIRE(eulerTotient(12) == 4);
 	}
+	SECTION("Sieve") {
+		Sieve sieve{ 2000 };
+		REQUIRE(!sieve.isPrime(4));
+		REQUIRE(sieve.isPrime(5));
+		REQUIRE(!sieve.isPrime(1'000'002));
+		REQUIRE(sieve.isPrime(1'000'003));
+	}
 	SECTION("Modular") {
-		REQUIRE(modPow(2, 10, 1e9) == 1024);
-		REQUIRE(modPow(3, 5, 1e9) == 243);
+		REQUIRE(modPow(2, 10) == 1024);
+		REQUIRE(modPow(3, 5, 5) == 3);
 
 		// ax + by == gcd(a, b)
 		// Sols : { x + kb / gcd(a, b), y - ka / gcd(a, b) }
@@ -63,17 +70,10 @@ TEST_CASE("Math") {
 		// => x == 20
 		// Sols : { x + km }
 		vector<Rem> eqs{ { 2, 6 }, { 2, 3 }, { 0, 5 } };
-		Rem sol = chinese(eqs);
+		Rem sol = chineseRemainder(eqs);
 		REQUIRE(sol.r == 20);
 		REQUIRE(sol.m == 30);
 		REQUIRE(sol.m == lcm(6, lcm(3, 5)));
-	}
-	SECTION("Sieve") {
-		Sieve sieve{ 2000 };
-		REQUIRE(!sieve.isPrime(4));
-		REQUIRE(sieve.isPrime(5));
-		REQUIRE(!sieve.isPrime(1'000'002));
-		REQUIRE(sieve.isPrime(1'000'003));
 	}
 	SECTION("Matrix") {
 		Mat<int> fib{ 2, 1 };
@@ -105,7 +105,7 @@ TEST_CASE("Math") {
 			tie(sol, ans) = gauss(a, b);
 			REQUIRE(sol == Solutions::ONE);
 			vector<double> expected{ -4., 4.5 };
-			for (int i = 0; i < b.size(); ++i)
+			for (int i = 0; i < int(b.size()); ++i)
 				REQUIRE(ans[i] == Approx(expected[i]));
 		}
 		SECTION("Mod 2") {

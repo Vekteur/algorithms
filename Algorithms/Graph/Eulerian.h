@@ -23,7 +23,8 @@ bool containsEulerianPath(const AdjList<L>& g) {
 		if ((g.adj[i].size() & 1) != 0)
 			++odd;
 	}
-	return odd == 2 || odd == 0; // odd == 0 if eulerian cycle
+	// odd == 0 if the graph contains an eulerian cycle
+	return odd == 2 || odd == 0;
 }
 
 template<typename L>

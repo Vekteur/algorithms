@@ -12,14 +12,11 @@ std::tuple<std::vector<int>, std::vector<int>> bellmanFordDistances(const AdjLis
 
 	minDist[start] = 0;
 	for (int k = 0; k < g.size() - 1; ++k) { // n - 1 times
-		for (int u = 0; u < g.size(); ++u) { // For each edge
-			for (Edge<L> v : g.adj[u]) {
-				// Pass if not visited
-				if (minDist[u] == INF)
-					continue;
-
-				// Relaxation
-				if (v.w + minDist[u] < minDist[v.to]) {
+		for (int u = 0; u < g.size(); ++u) {
+			if (minDist[u] == INF) // Pass if not visited
+				continue;
+			for (Edge<L> v : g.adj[u]) { // For each edge
+				if (v.w + minDist[u] < minDist[v.to]) { // Relaxation
 					minDist[v.to] = v.w + minDist[u];
 					pred[v.to] = u;
 				}
@@ -31,15 +28,13 @@ std::tuple<std::vector<int>, std::vector<int>> bellmanFordDistances(const AdjLis
 
 template<typename L>
 int bellmanFordCheckCycle(const AdjList<L>& g, const std::vector<int>& minDist) {
-	for (int j = 0; j < g.size(); ++j) { // For each edge
-		for (Edge<L> v : g.adj[j]) {
-			// Pass if not visited
-			if (minDist[j] == INF)
-				continue;
-
-			// Return the node that creates a cycle
-			if (v.w + minDist[j] < minDist[v.to])
-				return j;
+	for (int u = 0; u < g.size(); ++u) {
+		if (minDist[u] == INF) // Pass if not visited
+			continue;
+		for (Edge<L> v : g.adj[u]) { // For each edge
+			// If the edge can be relaxed, it is part of a negative cycle
+			if (v.w + minDist[u] < minDist[v.to])
+				return u;
 		}
 	}
 	return -1;

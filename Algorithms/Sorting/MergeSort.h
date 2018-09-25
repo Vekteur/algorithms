@@ -26,7 +26,7 @@ void mergeSort(std::vector<int>& a) {
 				}
 			}
 		}
-		for (int k = 0; k < b.size(); ++k) {
+		for (int k = 0; k < int(b.size()); ++k) {
 			a[k + low] = b[k];
 		}
 	};
