@@ -20,6 +20,9 @@
 #include "Graph/Toposort.h"
 #include "Graph/PruferCode.h"
 #include "Graph/2-SAT.h"
+#include "Graph/LCATarjan.h"
+#include "Graph/LCABinaryLifting.h"
+#include "Graph/LCARangeQuery.h"
 
 using namespace std;
 
@@ -158,16 +161,47 @@ TEST_CASE("Graph") {
 			REQUIRE(bridges[0].from == 0);
 			REQUIRE(bridges[0].to == 2);
 		}
-		SECTION("Prufer code") {
-			vector<int> preds{ -1, 3, 3, 0, 1 };
-			AdjList<DefaultLabel> tree(preds.size());
-			for (int i = 0; i < int(preds.size()); ++i) {
-				if (preds[i] != -1) {
-					tree.addEdge(preds[i], i);
-					tree.addEdge(i, preds[i]);
-				}
+	}
+}
+
+TEST_CASE("TREE") {
+	vector<int> preds{ -1, 3, 3, 0, 1, 1, 1, 4, 4 };
+	AdjList<> tree(preds.size());
+	for (int i = 0; i < int(preds.size()); ++i) {
+		if (preds[i] != -1)
+			tree.addEdge(preds[i], i);
+	}
+	SECTION("Directed") {
+		SECTION("LCA") {
+			SECTION("Binary lifting") {
+				LcaBinaryLifting lca(tree, 0);
+				REQUIRE(lca.query(2, 4) == 3);
+				REQUIRE(lca.query(1, 0) == 0);
 			}
-			vector<int> code{ 3, 3, 1 };
+			SECTION("Tarjan's offline algorithm") {
+				std::vector<int> lcas = lcaTarjanOffline(tree, 0, { { 2, 4 }, { 1, 0 } });
+				REQUIRE(lcas[0] == 3);
+				REQUIRE(lcas[1] == 0);
+			}
+			SECTION("Range query") {
+				LcaRangeQuery lca(tree, 0);
+				REQUIRE(lca.query(2, 4) == 3);
+				REQUIRE(lca.query(1, 0) == 0);
+			}
+			SECTION("Range query optimized") {
+				LcaRangeQueryOptimized lca(tree, 0);
+				REQUIRE(lca.query(2, 4) == 3);
+				REQUIRE(lca.query(1, 0) == 0);
+			}
+		}
+	}
+	SECTION("Undirected") {
+		for (int i = 0; i < int(preds.size()); ++i) {
+			if (preds[i] != -1)
+				tree.addEdge(i, preds[i]);
+		}
+		SECTION("Prufer code") {
+			vector<int> code{ 3, 3, 1, 1, 1, 4, 4 };
 			REQUIRE(pruferCode(tree) == code);
 			REQUIRE(pruferCode(pruferTree(code)) == code);
 		}

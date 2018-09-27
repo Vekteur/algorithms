@@ -9,7 +9,7 @@ private:
 	// The number of elements in the tree could be used instead
 
 public:
-	UnionFind(int size) {
+	UnionFind(int size = 0) {
 		rank.assign(size, 0);
 		parent.resize(size);
 		for (int i = 0; i < size; ++i)

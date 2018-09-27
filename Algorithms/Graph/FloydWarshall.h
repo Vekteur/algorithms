@@ -5,10 +5,6 @@
 #include "Graph.h"
 #include "Constants.h"
 
-struct NextLabel {
-	int next;
-};
-
 template<typename L>
 std::tuple<AdjMat<L>, AdjMat<Edge<>>> floydWarshall(AdjMat<L> mat) {
 	AdjMat<Edge<>> nextMat{ mat.size() };

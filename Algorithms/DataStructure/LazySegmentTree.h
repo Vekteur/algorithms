@@ -71,6 +71,7 @@ private:
 	}
 
 public:
+	LazySegmentTree() {}
 	LazySegmentTree(const std::vector<T>& a,
 		std::function<T(const T&, const T&)> combine = [](const T& c1, const T& c2) { return min(c1, c2); },
 		std::function<void(const L&, L&)> propagate = [](const L& p, L& c) {},

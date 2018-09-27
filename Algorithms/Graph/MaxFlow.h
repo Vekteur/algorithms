@@ -12,7 +12,8 @@ template<typename L>
 int maxflowEK(MappedAdjList<L> g, int source, int sink) {
 	std::function<int()> augmentBFS = [&g, &source, &sink]() {
 		std::vector<int> pred(g.size(), -1);
-		int cap = INF;
+		std::vector<int> cap(g.size());
+		cap[source] = INF;
 		std::queue<int> q;
 		q.push(source);
 		// Compute path
@@ -22,7 +23,7 @@ int maxflowEK(MappedAdjList<L> g, int source, int sink) {
 				int v = e.first;
 				if (e.second.w != 0 && pred[v] == -1) {
 					pred[v] = u;
-					cap = min(cap, e.second.w);
+					cap[v] = min(cap[u], e.second.w);
 					q.push(v);
 				}
 			}
@@ -34,12 +35,12 @@ int maxflowEK(MappedAdjList<L> g, int source, int sink) {
 		while (curr != source) {
 			int prev = pred[curr];
 			// adj[prev][cur] is an edge of the path
-			g.adj[prev][curr].w -= cap;
+			g.adj[prev][curr].w -= cap[sink];
 			// adj[cur][prev] is initialized to 0 if it doesn't exist
-			g.adj[curr][prev].w += cap;
+			g.adj[curr][prev].w += cap[sink];
 			curr = prev;
 		}
-		return cap;
+		return cap[sink];
 	};
 
 	int cap;

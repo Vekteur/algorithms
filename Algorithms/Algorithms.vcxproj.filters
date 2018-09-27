@@ -182,5 +182,14 @@
     <ClInclude Include="DataStructure\SegmentTree2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Graph\LcaTarjan.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Graph\LcaBinaryLifting.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Graph\LcaRangeQuery.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

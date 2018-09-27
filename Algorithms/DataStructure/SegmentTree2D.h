@@ -100,6 +100,7 @@ private:
 	}
 
 public:
+	SegmentTree2D() {}
 	SegmentTree2D(const std::vector<std::vector<T>>& a,
 		std::function<T(T, T)> combine = [](T c1, T c2) { return min(c1, c2); })
 		: n{ int(a.size()) }, m{ int(a[0].size()) }, combine{ combine } {

@@ -12,6 +12,7 @@ private:
 	std::vector<std::vector<T>> st;
 	std::function<T(T, T)> f;
 public:
+	SparseTable() {}
 	SparseTable(const std::vector<T>& a, 
 		std::function<T(T, T)> f = [](T a, T b) { return std::min(a, b); })
 		: logs(a.size() + 1), f{ f } {

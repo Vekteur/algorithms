@@ -144,6 +144,9 @@
     <ClInclude Include="Geometry\Geometry.h" />
     <ClInclude Include="Graph\FloydWarshall.h" />
     <ClInclude Include="Graph\Kruskal.h" />
+    <ClInclude Include="Graph\LcaRangeQuery.h" />
+    <ClInclude Include="Graph\LcaBinaryLifting.h" />
+    <ClInclude Include="Graph\LcaTarjan.h" />
     <ClInclude Include="Graph\Prim.h" />
     <ClInclude Include="Graph\PruferCode.h" />
     <ClInclude Include="Graph\Toposort.h" />
