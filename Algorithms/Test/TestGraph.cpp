@@ -164,7 +164,7 @@ TEST_CASE("Graph") {
 	}
 }
 
-TEST_CASE("TREE") {
+TEST_CASE("Tree") {
 	vector<int> preds{ -1, 3, 3, 0, 1, 1, 1, 4, 4 };
 	AdjList<> tree(preds.size());
 	for (int i = 0; i < int(preds.size()); ++i) {
@@ -191,7 +191,7 @@ TEST_CASE("TREE") {
 			SECTION("Range query optimized") {
 				LcaRangeQueryOptimized lca(tree, 0);
 				REQUIRE(lca.query(2, 4) == 3);
-				REQUIRE(lca.query(1, 0) == 0);
+				REQUIRE(lca.query(0, 1) == 0);
 			}
 		}
 	}

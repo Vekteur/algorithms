@@ -11,6 +11,7 @@
 #include "DataStructure/LazySegmentTree.h"
 #include "DataStructure/SegmentTree2D.h"
 #include "DataStructure/UnionFind.h"
+#include "DataStructure/OptimalRMQ.h"
 
 using namespace std;
 
@@ -96,6 +97,13 @@ TEST_CASE("Data structures") {
 		REQUIRE(st.query(1, 3, 1, 2) == 21);
 		st.update(1, 2, 5);
 		REQUIRE(st.query(1, 3, 1, 2) == 25);
+	}
+	SECTION("Optimal range minimum query") {
+		OptimalRMQ<int> rmq(arr);
+		REQUIRE(rmq.query(2, 4) == 2);
+		REQUIRE(rmq.query(0, 3) == 1);
+		OptimalRMQ<int> rmaxq(arr, std::greater<int>());
+		REQUIRE(rmaxq.query(0, 7) == 9);
 	}
 	SECTION("Union-find") {
 		UnionFind uf(8);

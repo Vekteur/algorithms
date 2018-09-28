@@ -12,13 +12,12 @@ private:
 	std::vector<std::vector<T>> st;
 	std::function<T(T, T)> f;
 public:
-	SparseTable() {}
 	SparseTable(const std::vector<T>& a, 
 		std::function<T(T, T)> f = [](T a, T b) { return std::min(a, b); })
 		: logs(a.size() + 1), f{ f } {
 
-		logs[1] = 0;
-		for (int k = 2; k <= int(a.size()); ++k)
+		logs[0] = -1;
+		for (int k = 1; k <= int(a.size()); ++k)
 			logs[k] = logs[k >> 1] + 1;
 
 		int maxLog = logs[int(a.size())];
@@ -28,10 +27,11 @@ public:
 			st[i][0] = a[i];
 
 		// The range [i, i + 2^d[ splits in [i, i + 2^(d - 1)[ and [i + 2^(d - 1), i + 2^d[
-		for (int d = 1; d <= maxLog; ++d)
+		for (int d = 1; d <= maxLog; ++d) {
 			// i + 2^d - 1 (last index of the sequence) must always be valid
 			for (int i = 0; i + (1 << d) - 1 < int(st.size()); ++i)
 				st[i][d] = f(st[i][d - 1], st[i + (1 << (d - 1))][d - 1]);
+		}
 	}
 
 	T query(int l, int r) {

@@ -12,16 +12,16 @@ private:
 	std::vector<int> heights;
 	std::vector<int> pre;
 	SparseTable<int> st;
+	std::vector<int> euler;
 
 public:
 	template<typename L>
-	LcaRangeQuery(const AdjList<L>& g, int root) {
-
+	LcaRangeQuery(const AdjList<L>& g, int root) : st({}) {
 		heights.resize(g.size());
 		pre.resize(g.size());
-		std::vector<int> euler(2 * g.size() - 1);
+		euler.resize(2 * g.size() - 1);
 		int index = 0;
-		std::function<void(int, int)> dfs = [&dfs, &g, &euler, &index, this](int u, int height) {
+		std::function<void(int, int)> dfs = [&dfs, &g, &index, this](int u, int height) {
 			heights[u] = height;
 			pre[u] = index;
 			euler[index++] = u;
@@ -112,8 +112,7 @@ private:
 
 public:
 	template<typename L>
-	LcaRangeQueryOptimized(const AdjList<L>& g, int root) {
-
+	LcaRangeQueryOptimized(const AdjList<L>& g, int root) : st({}) {
 		heights.resize(g.size());
 		pre.resize(g.size());
 		euler.resize(2 * g.size() - 1);

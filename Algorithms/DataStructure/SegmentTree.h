@@ -57,7 +57,6 @@ private:
 	}
 
 public:
-	SegmentTree() {}
 	SegmentTree(const std::vector<T>& a, std::function<T(T, T)> combine = [](T c1, T c2) { return min(c1, c2); })
 		: n{ int(a.size()) }, combine{ combine } {
 

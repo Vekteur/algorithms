@@ -125,10 +125,12 @@
     <ClInclude Include="Constants.h" />
     <ClInclude Include="DataStructure\DifferenceArray.h" />
     <ClInclude Include="DataStructure\LazySegmentTree.h" />
+    <ClInclude Include="DataStructure\OptimalRMQ.h" />
     <ClInclude Include="DataStructure\SegmentTree2D.h" />
     <ClInclude Include="DataStructure\SparseTable.h" />
     <ClInclude Include="DataStructure\SumArray.h" />
     <ClInclude Include="Graph\2-SAT.h" />
+    <ClInclude Include="Graph\CartesianTree.h" />
     <ClInclude Include="Graph\Graph.h" />
     <ClInclude Include="Dynamic\Knapsack.h" />
     <ClInclude Include="Geometry\Line.h" />
@@ -150,6 +152,7 @@
     <ClInclude Include="Graph\Prim.h" />
     <ClInclude Include="Graph\PruferCode.h" />
     <ClInclude Include="Graph\Toposort.h" />
+    <ClInclude Include="Graph\Tree.h" />
     <ClInclude Include="Math\BasicMath.h" />
     <ClInclude Include="Graph\MaxFlow.h" />
     <ClInclude Include="Math\Combinatorics.h" />

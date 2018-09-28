@@ -191,5 +191,14 @@
     <ClInclude Include="Graph\LcaRangeQuery.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Graph\CartesianTree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DataStructure\OptimalRMQ.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Graph\Tree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
