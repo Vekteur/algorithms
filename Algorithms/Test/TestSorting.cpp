@@ -12,7 +12,7 @@
 using namespace std;
 
 TEST_CASE("Sorting") {
-	SECTION("Binary seach") {
+	SECTION("Binary search") {
 		vector<int> arr{ 1, 2, 5, 5, 6, 9, 14 };
 		REQUIRE(binarySearch(0, int(arr.size()) - 1, [&arr](int i) { return arr[i] <= 5; }) == 3);
 		REQUIRE(binarySearch(0, int(arr.size()) - 1, [&arr](int i) { return arr[i] <= 8; }) == 4);

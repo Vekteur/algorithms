@@ -62,10 +62,8 @@ private:
 		for (int block = 0; block < blockCount; ++block) {
 			int blockStart = block * blockSize;
 			eulerBlocks[block] = euler[blockStart];
-			for (int innerBlock = 1; innerBlock < blockSize; ++innerBlock) {
-				if (blockStart + innerBlock >= int(euler.size())) // Last block
-					break;
-				eulerBlocks[block] = minHeight(eulerBlocks[block], euler[blockStart + innerBlock]);
+			for (int i = 1; i < blockSize && blockStart + i < int(euler.size()); ++i) {
+				eulerBlocks[block] = minHeight(eulerBlocks[block], euler[blockStart + i]);
 			}
 		}
 		st = SparseTable<int>(eulerBlocks, [this](int a, int b) { return minHeight(a, b); });
@@ -77,11 +75,11 @@ private:
 		for (int block = 0; block < blockCount; ++block) {
 			int mask = 0;
 			int blockStart = block * blockSize;
-			for (int innerBlock = 0; innerBlock < blockSize - 1; ++innerBlock) {
-				if (blockStart + innerBlock >= blockCount || // Last block
-					heights[euler[blockStart + innerBlock + 1]] - heights[euler[blockStart + innerBlock]] == 1) {
+			for (int i = 0; i < blockSize - 1; ++i) {
+				if (blockStart + i >= blockCount || // Last block
+					heights[euler[blockStart + i + 1]] - heights[euler[blockStart + i]] == 1) {
 					
-					mask += (1 << innerBlock);
+					mask += (1 << i);
 				}
 			}
 			blockMask[block] = mask;

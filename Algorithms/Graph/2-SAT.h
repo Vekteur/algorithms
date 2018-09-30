@@ -32,20 +32,20 @@ public:
 
 	std::vector<bool> findAssigment() {
 		AdjList<> gInv = invertAdjList(g);
-		std::vector<int> SCCindices(g.size(), -1);
+		std::vector<int> sccIndices(g.size(), -1);
 
 		int sccId = 0;
 		for (const std::vector<int>& scc : stronglyConnectedComponents(g)) {
 			for (int u : scc)
-				SCCindices[u] = sccId;
+				sccIndices[u] = sccId;
 			++sccId;
 		}
 
 		std::vector<bool> assignment(g.size() / 2, false);
 		for (int i = 0; i < g.size(); i += 2) {
-			if (SCCindices[i] == SCCindices[i + 1])
+			if (sccIndices[i] == sccIndices[i + 1])
 				return {};
-			assignment[i / 2] = (SCCindices[i] > SCCindices[i + 1]);
+			assignment[i / 2] = (sccIndices[i] > sccIndices[i + 1]);
 		}
 		return assignment;
 	}

@@ -9,8 +9,8 @@
 #include "Graph.h"
 
 template<typename L>
-int maxflowEK(MappedAdjList<L> g, int source, int sink) {
-	std::function<int()> augmentBFS = [&g, &source, &sink]() {
+int maxflowEdmondsKarp(MappedAdjList<L> g, int source, int sink) {
+	auto augmentBFS = [&g, &source, &sink]() {
 		std::vector<int> pred(g.size(), -1);
 		std::vector<int> cap(g.size());
 		cap[source] = INF;

@@ -98,12 +98,15 @@ struct AdjMat<DefaultLabel> : AdjMat<bool> { };
 template<typename L = DefaultLabel>
 struct EdgeList {
 	std::vector<BiEdge<L>> list;
+	int n;
+
+	EdgeList(int n) : n(n) {}
 
 	void addEdge(int from, int to, L label = L{}) {
 		list.push_back({ from, to, label });
 	}
 
 	int size() const {
-		return list.size();
+		return n;
 	}
 };

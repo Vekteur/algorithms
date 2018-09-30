@@ -15,8 +15,10 @@
 #include "Graph/Eulerian.h"
 #include "Graph/FloydWarshall.h"
 #include "Graph/Kruskal.h"
-#include "Graph/MaxFlow.h"
+#include "Graph/MaxFlowEdmondsKarp.h"
+#include "Graph/MaxFlowPushRelabel.h"
 #include "Graph/Prim.h"
+#include "Graph/DirectedMST.h"
 #include "Graph/Toposort.h"
 #include "Graph/PruferCode.h"
 #include "Graph/2-SAT.h"
@@ -34,7 +36,7 @@ TEST_CASE("Graph") {
 			g.addEdge(edge.from, edge.to, { edge.w });
 		}
 		SECTION("Basic") {
-			REQUIRE(dfs_stack(g).size() == 4);
+			REQUIRE(dfsStack(g).size() == 4);
 			REQUIRE(bfs(g).size() == 4);
 		}
 		SECTION("Cycle detection") {
@@ -63,9 +65,9 @@ TEST_CASE("Graph") {
 		}
 		SECTION("Floyd-Warshall") {
 			AdjMat<WeightLabel> mat(4, { INF });
-			for (auto edge : edges) {
+			for (auto edge : edges)
 				mat.setEdge(edge.from, edge.to, { edge.w });
-			}
+
 			AdjMat<WeightLabel> minDist;
 			AdjMat<Edge<>> next;
 			tie(minDist, next) = floydWarshall(mat);
@@ -101,13 +103,33 @@ TEST_CASE("Graph") {
 			REQUIRE(stronglyConnectedComponents(g).size() == 2);
 		}
 		SECTION("Max flow") {
-			MappedAdjList<WeightLabel> mappedG(edges.size());
-			for (auto edge : edges)
-				mappedG.addEdge(edge.from, edge.to, { edge.w });
-			REQUIRE(maxflowEK(mappedG, 0, 3) == 2);
-			mappedG.removeEdge(2, 3);
-			mappedG.addEdge(2, 3, { 5 });
-			REQUIRE(maxflowEK(mappedG, 0, 3) == 4);
+			SECTION("Edmond-Karp") {
+				MappedAdjList<WeightLabel> mappedG(edges.size());
+				for (auto edge : edges)
+					mappedG.addEdge(edge.from, edge.to, { edge.w });
+				REQUIRE(maxflowEdmondsKarp(mappedG, 0, 3) == 2);
+				mappedG.removeEdge(2, 3);
+				mappedG.addEdge(2, 3, { 5 });
+				REQUIRE(maxflowEdmondsKarp(mappedG, 0, 3) == 4);
+			}
+			SECTION("Push-Relabel") {
+				AdjMat<WeightLabel> mat(4, { 0 });
+				for (auto edge : edges)
+					mat.setEdge(edge.from, edge.to, { edge.w });
+
+				REQUIRE(maxFlowPushRelabel(mat, 0, 3) == 2);
+				mat.setEdge(2, 3, { 5 });
+				REQUIRE(maxFlowPushRelabel(mat, 0, 3) == 4);
+			}
+		}
+		SECTION("Directed MST") {
+			EdgeList<WeightLabel> list(3);
+			list.addEdge(0, 1, { 4 });
+			list.addEdge(0, 2, { 6 });
+			list.addEdge(1, 2, { 2 });
+			list.addEdge(2, 1, { 1 });
+			int sum = directedMstEdmond(list, 0);
+			REQUIRE(sum == 6);
 		}
 		SECTION("2-SAT") {
 			TwoSAT twoSAT;
@@ -134,11 +156,12 @@ TEST_CASE("Graph") {
 			REQUIRE(*max_element(weights.begin(), weights.end()) == 1);
 		}
 		SECTION("Kruskal") {
-			EdgeList<WeightLabel> list;
+			EdgeList<WeightLabel> list(g.size());
 			for (auto edge : edges) {
 				list.addEdge(edge.from, edge.to, { edge.w });
 			}
-			REQUIRE(kruskal(list).size() == 3);
+			EdgeList<> mst = kruskal(list);
+			REQUIRE(mst.list.size() == 3);
 		}
 		SECTION("Connected components") {
 			REQUIRE(isConnected(g));

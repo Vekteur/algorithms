@@ -39,7 +39,7 @@ Rem chineseRemainder(std::vector<Rem> eqs) {
 		if ((eq.r - sol.r) % eucl.gcd != 0) // No solution
 			return { -1, -1 };
 		sol.r += safeMod((eq.r - sol.r) / eucl.gcd * eucl.x, eq.m) * sol.m;
-		sol.m *= eq.m; // sol.m is the interval between solution
+		sol.m *= eq.m; // sol.m is the interval between solutions
 	}
 	return sol;
 }

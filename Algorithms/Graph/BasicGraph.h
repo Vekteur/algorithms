@@ -9,7 +9,7 @@
 #include "Graph.h"
 
 template<typename L>
-std::vector<int> dfs_stack(const AdjList<L>& g) {
+std::vector<int> dfsStack(const AdjList<L>& g) {
 	std::vector<int> preOrder;
 	std::vector<int> vis(g.size());
 	std::stack<int> st;

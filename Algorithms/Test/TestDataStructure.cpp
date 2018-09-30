@@ -5,6 +5,7 @@
 
 #include "DataStructure/SumArray.h"
 #include "DataStructure/DifferenceArray.h"
+#include "DataStructure/SqrtArray.h"
 #include "DataStructure/SparseTable.h"
 #include "DataStructure/FenwickTree.h"
 #include "DataStructure/SegmentTree.h"
@@ -31,6 +32,17 @@ TEST_CASE("Data structures") {
 		da.update(4, 7, -3);
 		da.update(6, 7, 11);
 		REQUIRE(da.query(4) == 4);
+
+		DifferenceArray<int> daXor(arr, [](int a, int b) { return a ^ b; }, [](int a, int b) { return a ^ b; });
+		REQUIRE(daXor.query(2) == 2);
+		daXor.update(1, 4, 6);
+		REQUIRE(daXor.query(2) == 4);
+	}
+	SECTION("Sqrt array") {
+		SqrtArray<int, int> sqrtArray(arr);
+		sqrtArray.update(1, 4, 3);
+		REQUIRE(sqrtArray.query(0, 3) == 26);
+		REQUIRE(sqrtArray.query(2, 6) == 32);
 	}
 	SECTION("Sparse table") {
 		SparseTable<int> st(arr);
