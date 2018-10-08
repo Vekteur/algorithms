@@ -39,6 +39,9 @@
     <ClCompile Include="Test\TestMisc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Test\TestString.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Graph\Eulerian.h">
@@ -207,6 +210,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Graph\MaxFlowEdmondsKarp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="String\KMP.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="String\Z_Algorithm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="String\SuffixArray.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="String\StringHashing.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

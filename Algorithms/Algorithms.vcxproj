@@ -122,6 +122,7 @@
     <ClCompile Include="Test\TestMisc.cpp" />
     <ClCompile Include="Test\TestSorting.cpp" />
     <ClCompile Include="Test\TestDataStructure.cpp" />
+    <ClCompile Include="Test\TestString.cpp" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="DataStructure\DifferenceArray.h" />
     <ClInclude Include="DataStructure\LazySegmentTree.h" />
@@ -175,6 +176,10 @@
     <ClCompile Include="Test\TestMath.cpp" />
     <ClInclude Include="Sorting\MergeSort.h" />
     <ClInclude Include="Sorting\TernarySearch.h" />
+    <ClInclude Include="String\KMP.h" />
+    <ClInclude Include="String\StringHashing.h" />
+    <ClInclude Include="String\SuffixArray.h" />
+    <ClInclude Include="String\Z_Algorithm.h" />
     <ClInclude Include="Test\TestUtil.h" />
     <ClInclude Include="Test\ThirdParty\catch.hpp" />
   </ItemGroup>
