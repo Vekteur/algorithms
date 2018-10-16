@@ -30,10 +30,16 @@ TEST_CASE("String") {
 	}
 	SECTION("Suffix array") {
 		SuffixArray sa(s);
-		REQUIRE(sa.sa == vector<int>{ 6, 4, 0, 2, 5, 1, 3 });
+		REQUIRE(sa.p == vector<int>{ 6, 4, 0, 2, 5, 1, 3 });
 		REQUIRE(sa.match("ba") == vector<int>{ 5, 1 });
+		REQUIRE(sa.compare(0, 4, 3) == 0);
+		REQUIRE(sa.compare(2, 4, 3) == 1);
+		REQUIRE(sa.compare(2, 3, 4) == -1);
+		REQUIRE(sa.longestCommonPrefix(0, 4) == 3);
+		REQUIRE(sa.longestCommonPrefix(2, 4) == 1);
+		REQUIRE(sa.distinctSubstrings() == 21);
 	}
 	SECTION("String hashing") {
-
+		REQUIRE(rabinKarp(s, "ba", 1e9 + 9) == vector<int>{ 1, 5 });
 	}
 }
