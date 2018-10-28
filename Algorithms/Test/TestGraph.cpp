@@ -8,6 +8,7 @@
 
 #include "Graph/BasicGraph.h"
 #include "Graph/BellmanFord.h"
+#include "Graph/SPFA.h"
 #include "Graph/BridgeAndArticulation.h"
 #include "Graph/ConnectedComponents.h"
 #include "Graph/CycleDetection.h"
@@ -17,6 +18,8 @@
 #include "Graph/Kruskal.h"
 #include "Graph/MaxFlowEdmondsKarp.h"
 #include "Graph/MaxFlowPushRelabel.h"
+#include "Graph/MinCostFlow.h"
+#include "Graph/CompatibleFlow.h"
 #include "Graph/Prim.h"
 #include "Graph/DirectedMST.h"
 #include "Graph/Toposort.h"
@@ -63,6 +66,12 @@ TEST_CASE("Graph") {
 			tie(minDist, pred) = bellmanFordDistances(g, 0);
 			REQUIRE(bellmanFordCheckCycle(g, minDist) != -1);
 		}
+		SECTION("Shortest path faster algorithm") {
+			vector<int> minDist, pred;
+			tie(minDist, pred) = spfaDistances(g, 0);
+			REQUIRE(minDist[3] == 4);
+			REQUIRE(pred[3] == 2);
+		}
 		SECTION("Floyd-Warshall") {
 			AdjMat<WeightLabel> mat(4, { INF });
 			for (auto edge : edges)
@@ -103,23 +112,40 @@ TEST_CASE("Graph") {
 			REQUIRE(stronglyConnectedComponents(g).size() == 2);
 		}
 		SECTION("Max flow") {
+			AdjMat<WeightLabel> mat(4, { 0 });
+			for (auto edge : edges)
+				mat.setEdge(edge.from, edge.to, { edge.w });
 			SECTION("Edmond-Karp") {
-				MappedAdjList<WeightLabel> mappedG(edges.size());
-				for (auto edge : edges)
-					mappedG.addEdge(edge.from, edge.to, { edge.w });
-				REQUIRE(maxflowEdmondsKarp(mappedG, 0, 3) == 2);
-				mappedG.removeEdge(2, 3);
-				mappedG.addEdge(2, 3, { 5 });
-				REQUIRE(maxflowEdmondsKarp(mappedG, 0, 3) == 4);
+				//REQUIRE(maxflowEdmondsKarp(mat, 0, 3) == 2);
+				mat.setEdge(2, 3, { 5 });
+				REQUIRE(maxflowEdmondsKarp(mat, 0, 3) == 4);
 			}
 			SECTION("Push-Relabel") {
-				AdjMat<WeightLabel> mat(4, { 0 });
-				for (auto edge : edges)
-					mat.setEdge(edge.from, edge.to, { edge.w });
-
 				REQUIRE(maxFlowPushRelabel(mat, 0, 3) == 2);
 				mat.setEdge(2, 3, { 5 });
 				REQUIRE(maxFlowPushRelabel(mat, 0, 3) == 4);
+			}
+			SECTION("Min cost flow") {
+				/*AdjMat<std::vector<WeightCostLabel>> mat(4, {});
+				for (auto edge : edges)
+					mat.setEdge(edge.from, edge.to, { { edge.w, edge.w } });
+				mat.setEdge(2, 3, { { 5, 2 } });
+				mat(2, 1).push_back({ 1, 1 });
+				mat(1, 3).push_back({ 1, 1 });
+				mat(1, 2).push_back({ 1, 10 });
+				int flow, minCost;
+				tie(flow, minCost) = minCostFlow(mat, 0, 3, 2);
+				REQUIRE(flow == 2);
+				REQUIRE(minCost == 7);
+				tie(flow, minCost) = minCostFlow(mat, 0, 3);
+				REQUIRE(flow == 4);
+				REQUIRE(minCost == 17);*/
+			}
+			SECTION("Compatible flow") {
+				AdjMat<WeightDemandLabel> mat(4, { 0, 0 });
+				for (auto edge : edges)
+					mat.setEdge(edge.from, edge.to, { edge.w, edge.w });
+				//REQUIRE(maxCompatibleFlow(mat, 0, 3) == 2);
 			}
 		}
 		SECTION("Directed MST") {

@@ -224,5 +224,14 @@
     <ClInclude Include="String\StringHashing.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Graph\MinCostFlow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Graph\SPFA.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Graph\CompatibleFlow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

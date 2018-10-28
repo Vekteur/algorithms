@@ -18,7 +18,7 @@ std::vector<int> zAlgorithmBuild(const std::string& s) {
 			l = i;
 			r = i + z[i];
 		}
-		// z[i] = max of 0 <= k < n - i such that s[0 : k] = s[i : i + k]
+		// z[i] = max of 0 <= k < n - i such that s[0 : k[ = s[i : i + k[
 	}
 	return z;
 }

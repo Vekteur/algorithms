@@ -8,10 +8,10 @@
 template<typename L>
 std::tuple<std::vector<int>, std::vector<int>> bellmanFordDistances(const AdjList<L>& g, int start) {
 	std::vector<int> minDist(g.size(), INF);
+	minDist[start] = 0;
 	std::vector<int> pred(g.size(), -1);
 
-	minDist[start] = 0;
-	for (int k = 0; k < g.size() - 1; ++k) { // n - 1 times
+	for (int k = 0; k < g.size() - 1; ++k) {
 		for (int u = 0; u < g.size(); ++u) {
 			if (minDist[u] == INF) // Pass if not visited
 				continue;

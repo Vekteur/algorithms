@@ -2,50 +2,76 @@
 
 #include <vector>
 #include <queue>
-#include <map>
 #include <algorithm>
 #include <functional>
 
 #include "Graph.h"
+#include "Constants.h"
 
 template<typename L>
-int maxflowEdmondsKarp(MappedAdjList<L> g, int source, int sink) {
-	auto augmentBFS = [&g, &source, &sink]() {
-		std::vector<int> pred(g.size(), -1);
-		std::vector<int> cap(g.size());
-		cap[source] = INF;
+int maxflowEdmondsKarp(AdjMat<L> cap, int source, int sink) {
+	int n = cap.size();
+	AdjList<> g(n);
+	for (int u = 0; u < n; ++u)
+		for (int v = 0; v < n; ++v)
+			if (cap(u, v).w != 0) {
+				g.addEdge(u, v);
+				g.addEdge(v, u);
+			}
+
+	auto bfs = [&cap, &g, &source, &sink, &n]() {
+		std::vector<int> pred(n, -1);
+		std::vector<int> flows(n, 0);
+		flows[source] = INF;
+		pred[source] = n;
 		std::queue<int> q;
 		q.push(source);
-		// Compute path
-		while (!q.empty() && pred[sink] == -1) {
+
+		while (!q.empty()) {
 			int u = q.front(); q.pop();
-			for (std::pair<int, L> e : g.adj[u]) {
-				int v = e.first;
-				if (e.second.w != 0 && pred[v] == -1) {
-					pred[v] = u;
-					cap[v] = min(cap[u], e.second.w);
-					q.push(v);
+			for (Edge<> v : g.adj[u]) {
+				if (pred[v.to] == -1 && cap(u, v.to).w != 0) {
+					pred[v.to] = u;
+					flows[v.to] = std::min(flows[u], cap(u, v.to).w);
+					q.push(v.to);
 				}
 			}
 		}
-		if (pred[sink] == -1)
-			return -1;
+
+		int flow = flows[sink];
+		if (flow == 0)
+			return 0;
+
 		// Update graph
 		int curr = sink;
 		while (curr != source) {
 			int prev = pred[curr];
-			// adj[prev][cur] is an edge of the path
-			g.adj[prev][curr].w -= cap[sink];
-			// adj[cur][prev] is initialized to 0 if it doesn't exist
-			g.adj[curr][prev].w += cap[sink];
+			cap(curr, prev).w += flow;
+			cap(prev, curr).w -= flow;
 			curr = prev;
 		}
-		return cap[sink];
+		return flow;
 	};
 
-	int cap;
-	int maxFlow = 0;
-	while ((cap = augmentBFS()) != -1)
-		maxFlow += cap;
+	for (int u = 0; u < n; ++u) {
+		for (int v = 0; v < n; ++v) {
+			if (cap(u, v).w != 0)
+				std::cout << '(' << u << ", " << v << ')' << " : " << cap(u, v).w << std::endl;
+		}
+	}
+	std::cout << std::endl;
+
+	int maxFlow = 0, flow;
+	while ((flow = bfs()) != 0) {
+		maxFlow += flow;
+		std::cout << flow << '\n';
+		for (int u = 0; u < n; ++u) {
+			for (int v = 0; v < n; ++v) {
+				if (cap(u, v).w != 0)
+					std::cout << '(' << u << ", " << v << ')' << " : " << cap(u, v).w << std::endl;
+			}
+		}
+		std::cout << std::endl;
+	}
 	return maxFlow;
 }
