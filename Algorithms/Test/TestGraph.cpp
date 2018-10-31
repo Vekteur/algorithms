@@ -116,7 +116,7 @@ TEST_CASE("Graph") {
 			for (auto edge : edges)
 				mat.setEdge(edge.from, edge.to, { edge.w });
 			SECTION("Edmond-Karp") {
-				//REQUIRE(maxflowEdmondsKarp(mat, 0, 3) == 2);
+				REQUIRE(maxflowEdmondsKarp(mat, 0, 3) == 2);
 				mat.setEdge(2, 3, { 5 });
 				REQUIRE(maxflowEdmondsKarp(mat, 0, 3) == 4);
 			}
@@ -126,7 +126,7 @@ TEST_CASE("Graph") {
 				REQUIRE(maxFlowPushRelabel(mat, 0, 3) == 4);
 			}
 			SECTION("Min cost flow") {
-				/*AdjMat<std::vector<WeightCostLabel>> mat(4, {});
+				AdjMat<std::vector<WeightCostLabel>> mat(4, {});
 				for (auto edge : edges)
 					mat.setEdge(edge.from, edge.to, { { edge.w, edge.w } });
 				mat.setEdge(2, 3, { { 5, 2 } });
@@ -139,13 +139,13 @@ TEST_CASE("Graph") {
 				REQUIRE(minCost == 7);
 				tie(flow, minCost) = minCostFlow(mat, 0, 3);
 				REQUIRE(flow == 4);
-				REQUIRE(minCost == 17);*/
+				REQUIRE(minCost == 17);
 			}
 			SECTION("Compatible flow") {
-				AdjMat<WeightDemandLabel> mat(4, { 0, 0 });
+				/*AdjMat<WeightDemandLabel> mat(4, { 0, 0 });
 				for (auto edge : edges)
 					mat.setEdge(edge.from, edge.to, { edge.w, edge.w });
-				//REQUIRE(maxCompatibleFlow(mat, 0, 3) == 2);
+				REQUIRE(maxCompatibleFlow(mat, 0, 3) == 2);*/
 			}
 		}
 		SECTION("Directed MST") {

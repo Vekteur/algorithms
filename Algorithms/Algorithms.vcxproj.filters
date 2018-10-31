@@ -233,5 +233,14 @@
     <ClInclude Include="Graph\CompatibleFlow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DataStructure\AVL.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DataStructure\BST.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DataStructure\Heap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

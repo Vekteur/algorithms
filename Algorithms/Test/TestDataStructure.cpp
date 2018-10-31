@@ -13,6 +13,9 @@
 #include "DataStructure/SegmentTree2D.h"
 #include "DataStructure/UnionFind.h"
 #include "DataStructure/OptimalRMQ.h"
+#include "DataStructure/BST.h"
+#include "DataStructure/AVL.h"
+#include "DataStructure/Heap.h"
 
 using namespace std;
 
@@ -125,5 +128,36 @@ TEST_CASE("Data structures") {
 		uf.merge(3, 4);
 		REQUIRE(uf.sameSet(1, 5));
 		REQUIRE(!uf.sameSet(1, 6));
+	}
+	SECTION("Binary search tree") {
+		BST<int> bst;
+		bst.insert(8);
+		bst.insert(5);
+		bst.insert(6);
+		REQUIRE(bst.lookup(6));
+		REQUIRE(!bst.lookup(7));
+		bst.remove(5);
+		REQUIRE(bst.lookup(6));
+	}
+	SECTION("AVL") {
+		AVL<int> avl;
+		avl.insert(8);
+		avl.insert(5);
+		avl.insert(6);
+		REQUIRE(avl.lookup(6));
+		REQUIRE(!avl.lookup(7));
+		avl.remove(5);
+		REQUIRE(avl.lookup(6));
+	}
+	SECTION("Heap") {
+		Heap<int> heap;
+		heap.push(5);
+		heap.push(8);
+		heap.push(6);
+		REQUIRE(heap.top() == 8);
+		heap.pop();
+		REQUIRE(heap.top() == 6);
+		heap = Heap<int>({ 6, 5, 8 }, std::greater<int>());
+		REQUIRE(heap.top() == 5);
 	}
 }

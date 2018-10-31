@@ -124,7 +124,10 @@
     <ClCompile Include="Test\TestDataStructure.cpp" />
     <ClCompile Include="Test\TestString.cpp" />
     <ClInclude Include="Constants.h" />
+    <ClInclude Include="DataStructure\BST.h" />
+    <ClInclude Include="DataStructure\AVL.h" />
     <ClInclude Include="DataStructure\DifferenceArray.h" />
+    <ClInclude Include="DataStructure\Heap.h" />
     <ClInclude Include="DataStructure\LazySegmentTree.h" />
     <ClInclude Include="DataStructure\OptimalRMQ.h" />
     <ClInclude Include="DataStructure\SegmentTree2D.h" />

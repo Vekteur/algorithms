@@ -53,25 +53,8 @@ int maxflowEdmondsKarp(AdjMat<L> cap, int source, int sink) {
 		return flow;
 	};
 
-	for (int u = 0; u < n; ++u) {
-		for (int v = 0; v < n; ++v) {
-			if (cap(u, v).w != 0)
-				std::cout << '(' << u << ", " << v << ')' << " : " << cap(u, v).w << std::endl;
-		}
-	}
-	std::cout << std::endl;
-
 	int maxFlow = 0, flow;
-	while ((flow = bfs()) != 0) {
+	while ((flow = bfs()) != 0)
 		maxFlow += flow;
-		std::cout << flow << '\n';
-		for (int u = 0; u < n; ++u) {
-			for (int v = 0; v < n; ++v) {
-				if (cap(u, v).w != 0)
-					std::cout << '(' << u << ", " << v << ')' << " : " << cap(u, v).w << std::endl;
-			}
-		}
-		std::cout << std::endl;
-	}
 	return maxFlow;
 }
