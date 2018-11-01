@@ -242,5 +242,8 @@
     <ClInclude Include="DataStructure\Heap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Math\Simplex.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

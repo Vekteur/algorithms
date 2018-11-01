@@ -173,6 +173,7 @@
     <ClInclude Include="Math\Modular.h" />
     <ClInclude Include="Math\Prime.h" />
     <ClInclude Include="Math\Sieve.h" />
+    <ClInclude Include="Math\Simplex.h" />
     <ClInclude Include="Math\TortoiseAndHare.h" />
     <ClInclude Include="Misc\Permutations.h" />
     <ClInclude Include="Misc\Subsets.h" />

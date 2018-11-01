@@ -14,6 +14,7 @@
 #include "Math/Combinatorics.h"
 #include "Math/GaussElimination.h"
 #include "Math/FastFourier.h"
+#include "Math/Simplex.h"
 
 using namespace std;
 
@@ -126,5 +127,20 @@ TEST_CASE("Math") {
 		vector<int> expected{ 3, 7, 6, 12, 3, 4, 1, 0 };
 		REQUIRE(multiplyPolynoms(pol1, pol2) == expected);
 		REQUIRE(multiplyPolynomsNaive(pol1, pol2) == expected);
+	}
+	SECTION("Simplex") {
+		vector<double> c{ -5, -4, -3, 0, 0, 0 };
+		vector<vector<double>> a{
+			{1, 0, 0, 1, 0, 0},
+			{2, 1, 1, 0, 1, 0},
+			{2, 2, 3, 0, 0, 1}
+		};
+		vector<double> b{ 400, 1000, 1600 };
+		Simplex simplex{a, b, c};
+		vector<double> expected{ 200, 600, 0, 200, 0, 0 };
+		vector<double> sol = simplex.solution();
+		REQUIRE(simplex.objective() == -3400);
+		for (int i = 0; i < int(sol.size()); ++i)
+			REQUIRE(sol[i] == Approx(expected[i]));
 	}
 }
