@@ -4,14 +4,17 @@
 #include "Point.h"
 
 struct Line {
-	double a, b, c; // ax + by + c = 0
+	double a, b, c; // ax + by = c
 
-	Line(double a, double b, double c) : a{ a }, b{ b }, c{ c } {}
+	Line(double a, double b, double c) : a{ a }, b{ b }, c{ c } {
+		normalize();
+	}
 
-	Line(Point s, Point t) {
-		a = t.y - s.y;
-		b = s.x - t.x;
-		c = -(a * s.x + b * s.y);
+	Line(Point p1, Point p2) {
+		a = p2.y - p1.y;
+		b = p1.x - p2.x;
+		c = a * p1.x + b * p1.y;
+		normalize();
 	}
 
 	bool contains(Point p) const {
@@ -19,18 +22,18 @@ struct Line {
 	}
 
 	double dist(Point p) const {
-		return abs(a * p.x + b * p.y + c) / sqrt(a * a + b * b);
+		return abs(a * p.x + b * p.y - c) / sqrt(a * a + b * b);
 	}
 
 	Point inter(Line l) const {
 		double d = a * l.b - l.a * b;
-		double x = (b * l.c - l.b * c) / d;
-		double y = (l.a * c - a * l.c) / d;
+		double x = (l.b * c - b * l.c) / d;
+		double y = (a * l.c - l.a * c) / d;
 		return Point(x, y);
 	}
 
 	Line perp(Point p) const {
-		return Line(-b, a, b * p.x - a * p.y);
+		return Line(-b, a, a * p.y - b * p.x);
 	}
 
 	Point sym(Point p) const {
@@ -40,20 +43,24 @@ struct Line {
 	}
 
 	static Line vertical(int c) {
-		return Line(1., 0., -c);
+		return Line(1., 0., c);
 	}
 
 	static Line horizontal(int c) {
-		return Line(0., 1., -c);
+		return Line(0., 1., c);
+	}
+
+	void normalize() {
+		double norm = Point(a, b).norm();
+		if (a < 0)
+			norm *= -1;
+		a /= norm;
+		b /= norm;
+		c /= norm;
 	}
 
 	bool operator==(const Line& l) const {
-		if (b == 0 || l.b == 0) {
-			if (b == 0 && l.b == 0)
-				return eq(a / c, l.a / l.c);
-			return false;
-		}
-		return(eq(a / b, l.a / l.b) && eq(c / b, l.c / l.b));
+		return eq(a, l.a) && eq(b, l.b) && eq(c, l.c);
 	}
 };
 

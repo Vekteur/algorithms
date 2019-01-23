@@ -14,10 +14,12 @@ struct Point {
 
 	Point(double x, double y) : x{ x }, y{ y } {}
 
+	double norm() const {
+		return sqrt(x * x + y * y);
+	}
+
 	double dist(Point p) const {
-		double dx = x - p.x;
-		double dy = y - p.y;
-		return sqrt(dx * dx + dy * dy);
+		return Point(p.x - x, p.y - y).norm();
 	}
 
 	bool inBox(Point a, Point b) const {

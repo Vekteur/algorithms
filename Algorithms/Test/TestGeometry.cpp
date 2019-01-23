@@ -22,7 +22,7 @@ TEST_CASE("Geometry") {
 		REQUIRE(Point(3, 1).angle(p, r) == Approx(-PI / 4));
 	}
 	SECTION("Intersection") {
-		REQUIRE(l2 == Line(0.5, 1., -4.5));
+		REQUIRE(l2 == Line(0.5, 1., 4.5));
 		REQUIRE(l1.inter(l2) == Point(2, 3.5));
 	}
 	SECTION("Distance") {

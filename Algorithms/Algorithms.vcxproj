@@ -126,6 +126,7 @@
     <ClInclude Include="Constants.h" />
     <ClInclude Include="DataStructure\BST.h" />
     <ClInclude Include="DataStructure\AVL.h" />
+    <ClInclude Include="DataStructure\BTree.h" />
     <ClInclude Include="DataStructure\DifferenceArray.h" />
     <ClInclude Include="DataStructure\Heap.h" />
     <ClInclude Include="DataStructure\LazySegmentTree.h" />

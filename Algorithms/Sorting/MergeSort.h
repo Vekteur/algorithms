@@ -5,30 +5,22 @@
 
 namespace {
 void mergeSort(std::vector<int>& a) {
-	std::function<void(int, int, int)> merge = [&a](int low, int mid, int high) {
+	auto merge = [&a](int low, int mid, int high) {
 		std::vector<int> b;
 		b.reserve(high - low + 1);
 		int i = low, j = mid + 1;
-		while (true) {
-			if (a[i] <= a[j]) {
-				b.push_back(a[i]);
-				if (++i == mid + 1) {
-					for (int k = j; k <= high; ++k)
-						b.push_back(a[k]);
-					break;
-				}
-			} else {
-				b.push_back(a[j]);
-				if (++j == high + 1) {
-					for (int k = i; k <= mid; ++k)
-						b.push_back(a[k]);
-					break;
-				}
-			}
+		while (i <= mid && j <= high) {
+			if (a[i] <= a[j])
+				b.push_back(a[i++]);
+			else
+				b.push_back(a[j++]);
 		}
-		for (int k = 0; k < int(b.size()); ++k) {
+		while (i <= mid)
+			b.push_back(a[i++]);
+		while (j <= high)
+			b.push_back(a[j++]);
+		for (int k = 0; k < int(b.size()); ++k)
 			a[k + low] = b[k];
-		}
 	};
 
 	std::function<void(int, int)> mergeSort = [&mergeSort, &merge, &a](int low, int high) {

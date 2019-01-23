@@ -22,10 +22,13 @@ private:
 				largest = l;
 			if (r < n && comp(a[largest], a[r]))
 				largest = r;
-			if (largest != i)
+
+			if (largest != i) {
 				std::swap(a[i], a[largest]);
-			else
+				i = largest;
+			} else {
 				break;
+			}
 		};
 	}
 

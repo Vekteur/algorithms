@@ -39,8 +39,8 @@ TEST_CASE("Graph") {
 			g.addEdge(edge.from, edge.to, { edge.w });
 		}
 		SECTION("Basic") {
-			REQUIRE(dfsStack(g).size() == 4);
-			REQUIRE(bfs(g).size() == 4);
+			REQUIRE(dfsStack(g, 0).size() == 4);
+			REQUIRE(bfs(g, 0).size() == 4);
 		}
 		SECTION("Cycle detection") {
 			REQUIRE(hasCycle(g));

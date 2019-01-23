@@ -19,23 +19,23 @@ private:
 	std::unique_ptr<Node> root;
 	std::function<bool(T, T)> comp;
 
-	bool lookup(T data, const Node* n) {
+	bool lookup(const Node* n, const T& data) {
 		if (n == nullptr)
 			return false;
 		if (comp(data, n->data))
-			return lookup(data, n->l.get());
+			return lookup(n->l.get(), data);
 		else if (comp(n->data, data))
-			return lookup(data, n->r.get());
+			return lookup(n->r.get(), data);
 		return true;
 	}
 
-	std::unique_ptr<Node> insertRec(T data, std::unique_ptr<Node> n) {
+	std::unique_ptr<Node> insertRec(std::unique_ptr<Node> n, const T& data) {
 		if (n == nullptr)
 			return std::make_unique<Node>(data);
 		if (comp(data, n->data))
-			n->l = insertRec(data, std::move(n->l));
+			n->l = insertRec(std::move(n->l), data);
 		else if (comp(n->data, data))
-			n->r = insertRec(data, std::move(n->r));
+			n->r = insertRec(std::move(n->r), data);
 		return n;
 	}
 
@@ -68,13 +68,13 @@ private:
 		return n;
 	}
 
-	std::unique_ptr<Node> removeRec(T data, std::unique_ptr<Node> n) {
+	std::unique_ptr<Node> removeRec(std::unique_ptr<Node> n, const T& data) {
 		if (n == nullptr)
 			return n;
 		if (comp(data, n->data))
-			n->l = removeRec(data, std::move(n->l));
+			n->l = removeRec(std::move(n->l), data);
 		else if (comp(n->data, data))
-			n->r = removeRec(data, std::move(n->r));
+			n->r = removeRec(std::move(n->r), data);
 		else
 			return removeRoot(std::move(n));
 		return n;
@@ -90,16 +90,16 @@ private:
 public:
 	BST(std::function<bool(T, T)> comp = std::less<T>()) : comp(comp) {}
 
-	bool lookup(T data) {
-		return lookup(data, root.get());
+	bool lookup(const T& data) {
+		return lookup(root.get(), data);
 	}
 
-	void insert(T data) {
-		root = insertRec(data, std::move(root));
+	void insert(const T& data) {
+		root = insertRec(std::move(root), data);
 	}
 
-	void remove(T data) {
-		root = removeRec(data, std::move(root));
+	void remove(const T& data) {
+		root = removeRec(std::move(root), data);
 	}
 
 	void print() {

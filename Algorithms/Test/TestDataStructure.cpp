@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <functional>
+#include <random>
 
 #include "DataStructure/SumArray.h"
 #include "DataStructure/DifferenceArray.h"
@@ -15,6 +16,7 @@
 #include "DataStructure/OptimalRMQ.h"
 #include "DataStructure/BST.h"
 #include "DataStructure/AVL.h"
+#include "DataStructure/BTree.h"
 #include "DataStructure/Heap.h"
 
 using namespace std;
@@ -148,6 +150,16 @@ TEST_CASE("Data structures") {
 		REQUIRE(!avl.lookup(7));
 		avl.remove(5);
 		REQUIRE(avl.lookup(6));
+	}
+	SECTION("B-Tree") {
+		mt19937 rng;
+		uniform_int_distribution<int> dist(1, 100);
+
+		BTree<int, 2> btree;
+		for (int i = 0; i < 1000; ++i) {
+			btree.insert(dist(rng));
+		}
+		btree.print();
 	}
 	SECTION("Heap") {
 		Heap<int> heap;
