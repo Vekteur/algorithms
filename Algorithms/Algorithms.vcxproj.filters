@@ -248,5 +248,8 @@
     <ClInclude Include="DataStructure\BTree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Sorting\Quicksort.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

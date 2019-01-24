@@ -56,14 +56,12 @@ private:
 	}
 
 	bool lookupRec(const Node* n, const T& d) {
-		if (n == nullptr)
-			return false;
 		int i = minGreaterIndex(n, d);
-		if (i < n->size && !comp(d, n->data[i])) {
+		if (i < n->size && !comp(d, n->data[i])) // d in n
 			return true;
-		} else {
-			return lookupRec(n->child[i].get(), d);
-		}
+		if (n->leaf)
+			return false;
+		return lookupRec(n->child[i].get(), d);
 	}
 
 	// Split full n->child[index] in two empty children n->child[index] and n->child[index + 1]
@@ -84,7 +82,7 @@ private:
 	// Insert data d in non-full node n
 	void insertRec(Node* n, const T& d) {
 		int i = minGreaterIndex(n, d);
-		if (i == n->size || (i < n->size && comp(d, n->data[i]))) { // d not in n
+		if (!(i < n->size && !comp(d, n->data[i]))) { // d not in n
 			if (n->leaf) {
 				n->insertInLeaf(d, i);
 			} else {
@@ -210,15 +208,15 @@ private:
 	// n must be non-empty except if it is the root with at least one non-empty child
 	void removeRec(Node* n, const T& d) {
 		int i = minGreaterIndex(n, d);
-		if (i == n->size || (i < n->size && comp(d, n->data[i]))) { // d not in n
+		if (i < n->size && !comp(d, n->data[i])) { // d in n
+			removeInRoot(n, i);
+		} else { // d not in n
 			if (!n->leaf) {
 				int nextIndex = i;
 				if (n->child[i]->size == S - 1)
 					nextIndex = preprocess(n, i);
 				removeRec(n->child[nextIndex].get(), d);
 			}
-		} else { // d in n
-			removeInRoot(n, i);
 		}
 	}
 

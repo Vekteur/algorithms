@@ -8,6 +8,7 @@
 #include "Sorting/TernarySearch.h"
 #include "Sorting/BasicSorting.h"
 #include "Sorting/MergeSort.h"
+#include "Sorting/Quicksort.h"
 
 using namespace std;
 
@@ -47,6 +48,10 @@ TEST_CASE("Sorting") {
 	}
 	SECTION("Merge sort") {
 		mergeSort(a);
+		REQUIRE(a == expected);
+	}
+	SECTION("Quick sort") {
+		quicksort(a);
 		REQUIRE(a == expected);
 	}
 }
