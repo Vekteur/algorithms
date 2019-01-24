@@ -152,14 +152,21 @@ TEST_CASE("Data structures") {
 		REQUIRE(avl.lookup(6));
 	}
 	SECTION("B-Tree") {
-		mt19937 rng;
-		uniform_int_distribution<int> dist(1, 100);
-
 		BTree<int, 2> btree;
-		for (int i = 0; i < 1000; ++i) {
-			btree.insert(dist(rng));
-		}
-		btree.print();
+		for (int i = 0; i < 4; ++i)
+			btree.insert(i);
+		REQUIRE(btree.lookup(0));
+		btree.remove(0);
+		REQUIRE(!btree.lookup(0));
+		btree.remove(2);
+		for (int i = 0; i < 10; ++i)
+			btree.insert(i);
+		REQUIRE(btree.size() == 10);
+		REQUIRE(btree.lookup(5));
+		for (int i = 0; i < 10; ++i)
+			btree.remove(i);
+		REQUIRE(btree.size() == 0);
+		REQUIRE(!btree.lookup(5));
 	}
 	SECTION("Heap") {
 		Heap<int> heap;

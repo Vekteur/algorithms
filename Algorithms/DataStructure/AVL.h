@@ -106,12 +106,6 @@ protected:
 		return min(n->l.get());
 	}
 
-	T max(const Node* n) {
-		if (n->r == nullptr)
-			return n->data;
-		return max(n->l.get());
-	}
-
 	std::unique_ptr<Node> removeMinRec(std::unique_ptr<Node> n) {
 		if (n->l == nullptr)
 			return std::move(n->r);
