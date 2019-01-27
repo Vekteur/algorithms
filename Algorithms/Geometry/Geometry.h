@@ -13,6 +13,10 @@ int sgn(int x) {
 	return 0;
 }
 
+bool between(double x, double a, double b) {
+	return min(a, b) <= x && x <= max(a, b);
+}
+
 bool eq(double a, double b) { return abs(a - b) <= epsilon; }
 bool le(double a, double b) { return a < b + epsilon; }
 bool leq(double a, double b) { return a <= b + epsilon; }

@@ -3,9 +3,9 @@
 #include <algorithm>
 #include <functional>
 
-#include "Graph/Graph.h"
 #include "TestUtil.h"
 
+#include "Graph/Graph.h"
 #include "Graph/BasicGraph.h"
 #include "Graph/BellmanFord.h"
 #include "Graph/SPFA.h"

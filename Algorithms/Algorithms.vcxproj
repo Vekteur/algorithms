@@ -135,6 +135,7 @@
     <ClInclude Include="DataStructure\SparseTable.h" />
     <ClInclude Include="DataStructure\SqrtArray.h" />
     <ClInclude Include="DataStructure\SumArray.h" />
+    <ClInclude Include="Geometry\Segment.h" />
     <ClInclude Include="Graph\2-SAT.h" />
     <ClInclude Include="Graph\CartesianTree.h" />
     <ClInclude Include="Graph\CompatibleFlow.h" />

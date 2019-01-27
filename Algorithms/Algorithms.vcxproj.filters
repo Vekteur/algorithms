@@ -251,5 +251,8 @@
     <ClInclude Include="Sorting\Quicksort.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Geometry\Segment.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

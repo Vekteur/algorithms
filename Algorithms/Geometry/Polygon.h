@@ -8,82 +8,79 @@
 #include "Line.h"
 
 struct Polygon {
-	vector<Point> m_points;
+	std::vector<Point> points;
 
-	Polygon& add(Point p) {
-		m_points.push_back(p);
-		return *this;
-	}
+	Polygon(std::vector<Point> points) : points(points) {}
 
 	int size() const {
-		return int(m_points.size());
+		return int(points.size());
 	}
 
 	double perimeter() const {
 		double p = 0;
 		for (int i = 0; i < size(); ++i)
-			p += m_points[i].dist(m_points[(i + 1) % size()]);
+			p += points[i].dist(points[(i + 1) % size()]);
 		return p;
 	}
 
 	double area() const {
 		double result = 0;
 		for (int i = 0; i < size(); ++i)
-			result += m_points[i].x * m_points[(i + 1) % size()].y - m_points[(i + 1) % size()].x * m_points[i].y;
+			result += points[i].x * points[(i + 1) % size()].y - points[(i + 1) % size()].x * points[i].y;
 		return result / 2;
 	}
 
-	bool isConvex() const { // Suppose that the vertices are counter-clockwise
-		for (int i = 0; i < size(); ++i)
-			if (orient(m_points[i], m_points[(i + 1) % size()], m_points[(i + 2) % size()]) <= 0)
-				return false;
-		return true;
+	bool isConvex() const {
+		bool has_pos = false, has_neg = false;
+		for (int i = 0; i < size(); ++i) {
+			double o = orient(points[i], points[(i + 1) % size()], points[(i + 2) % size()]);
+			if (o < 0) has_neg = true;
+			if (o > 0) has_pos = true;
+		}
+		return !(has_pos && has_neg);
 	}
 
 	bool contains(Point p) const {
 		double angle = 0;
-		for (int i = 0; i < size(); ++i) {
-			angle += p.angle(m_points[i], m_points[(i + 1) % size()]);
-		}
+		for (int i = 0; i < size(); ++i)
+			angle += p.angle(points[i], points[(i + 1) % size()]);
+		
 		// Strictly in the polygon
 		if (eq(angle, -2 * PI))
 			return true;
 
+		// On the bounds of the polygon
 		for (int i = 0; i < size(); ++i) {
-			Line seg{ m_points[i], m_points[(i + 1) % size()] };
-			// On the bounds of the polygon
-			if (seg.contains(p) && p.inBox(m_points[i], m_points[(i + 1) % size()]))
+			Line seg{ points[i], points[(i + 1) % size()] };
+			if (eq(seg.side(p), 0) && p.inBox(points[i], points[(i + 1) % size()]))
 				return true;
 		}
 		return false;
 	}
 
-	vector<Point> convexHull() const {
-		vector<Point> ch;
-		vector<Point> sorted = m_points;
-
-		Point lowest = m_points[0];
-		for (Point p : m_points) {
-			if (p.y < lowest.y || (p.y == lowest.y && p.x < lowest.x))
-				lowest = p;
+	std::vector<Point> convexHull() const {
+		Point pivot = points[0];
+		for (Point p : points) {
+			if (p.x < pivot.x || (p.x == pivot.x && p.y < pivot.y))
+				pivot = p;
 		}
 
-		sort(sorted.begin(), sorted.end(), AngleComp{ lowest });
+		// The pivot is always last in sorted order
+		// because it is aligned with itself and is the closest of itself
+		std::vector<Point> sorted = points;
+		std::sort(sorted.begin(), sorted.end(), AngleComp{ pivot });
 
 		if (int(sorted.size()) <= 3)
 			return sorted;
 
+		std::vector<Point> ch;
 		for (int k = 0; k < 2; ++k)
 			ch.push_back(sorted[k]);
 
-		for (int k = 2; k < int(sorted.size());) {
-			int s = ch.size();
-			if (orient(ch[s - 2], ch[s - 1], sorted[k]) >= 0) {
-				ch.push_back(sorted[k]);
-				++k;
-			} else {
+		for (int k = 2; k < int(sorted.size()); ++k) {
+			while (orient(ch[int(ch.size()) - 2], ch[int(ch.size()) - 1], sorted[k]) < 0)
 				ch.pop_back();
-			}
+			ch.push_back(sorted[k]);
 		}
 
 		return ch;

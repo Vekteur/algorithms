@@ -15,7 +15,6 @@ private:
 		std::array<std::unique_ptr<Node>, 2 * S> child;
 		int size = 0;
 		bool leaf = true;
-		Node() {}
 
 		void insertInLeaf(const T& d, int index) {
 			for (int i = size; i > index; --i)
@@ -134,7 +133,7 @@ private:
 		moveData(n, index - 1, n->child[index].get(), 0, 0, from, from->size - 1, from->size);
 	}
 
-	// Make empty n->child[index] non - empty using left child
+	// Make empty n->child[index] non-empty using non-empty left child
 	// Return the new index of the child
 	int preprocessLeft(Node* n, int index) {
 		if (n->child[index - 1]->size == S - 1) {
@@ -146,7 +145,7 @@ private:
 		}
 	}
 
-	// Make empty n->child[index] non-empty using right child
+	// Make empty n->child[index] non-empty using non-empty right child
 	// Return the new index of the child
 	int preprocessRight(Node* n, int index) {
 		if (n->child[index + 1]->size == S - 1)

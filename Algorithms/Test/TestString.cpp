@@ -6,12 +6,12 @@
 #include <algorithm>
 #include <functional>
 
+#include "TestUtil.h"
+
 #include "String/Z_Algorithm.h"
 #include "String/KMP.h"
 #include "String/SuffixArray.h"
 #include "String/StringHashing.h"
-
-#include "TestUtil.h"
 
 using namespace std;
 
