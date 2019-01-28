@@ -59,30 +59,22 @@ struct Polygon {
 	}
 
 	std::vector<Point> convexHull() const {
-		Point pivot = points[0];
-		for (Point p : points) {
-			if (p.x < pivot.x || (p.x == pivot.x && p.y < pivot.y))
-				pivot = p;
+		vector<Point> sorted = points;
+		std::sort(sorted.begin(), sorted.end());
+		vector<Point> ch;
+		for (int phase = 0; phase < 2; ++phase) {
+			int start = int(ch.size());
+			for (Point p : sorted) {
+				while (int(ch.size()) >= start + 2 && 
+						orient(ch[int(ch.size()) - 2], ch[int(ch.size()) - 1], p) <= 0)
+					ch.pop_back();
+				ch.push_back(p);
+			}
+			ch.pop_back();
+			std::reverse(sorted.begin(), sorted.end());
 		}
-
-		// The pivot is always last in sorted order
-		// because it is aligned with itself and is the closest of itself
-		std::vector<Point> sorted = points;
-		std::sort(sorted.begin(), sorted.end(), AngleComp{ pivot });
-
-		if (int(sorted.size()) <= 3)
-			return sorted;
-
-		std::vector<Point> ch;
-		for (int k = 0; k < 2; ++k)
-			ch.push_back(sorted[k]);
-
-		for (int k = 2; k < int(sorted.size()); ++k) {
-			while (orient(ch[int(ch.size()) - 2], ch[int(ch.size()) - 1], sorted[k]) < 0)
-				ch.pop_back();
-			ch.push_back(sorted[k]);
-		}
-
+		if (ch.size() == 2 && ch[0] == ch[1])
+			ch.pop_back();
 		return ch;
 	}
 };

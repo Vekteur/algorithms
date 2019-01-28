@@ -5,6 +5,8 @@
 #include "Geometry.h"
 #include "Constants.h"
 
+#include <tuple>
+
 namespace {
 
 struct Point;
@@ -48,7 +50,7 @@ struct Point {
 		return { -y, x };
 	}
 
-	bool operator==(const Point & p) const {
+	bool operator==(Point p) const {
 		return eq(x, p.x) && eq(y, p.y);
 	}
 
@@ -62,6 +64,10 @@ struct Point {
 
 	Point operator-(Point p) {
 		return (*this) + -p;
+	}
+
+	bool operator<(Point p) {
+		return std::make_tuple(x, y) < std::make_tuple(p.x, p.y);
 	}
 };
 
@@ -81,16 +87,5 @@ double cross(Point a, Point b) {
 double orient(Point p, Point q, Point r) {
 	return cross(q - p, r - p);
 }
-
-struct AngleComp {
-	Point pivot;
-	AngleComp(Point _pivot) : pivot{ _pivot } {}
-
-	bool operator()(const Point& a, const Point& b) const {
-		if (eq(orient(pivot, a, b), 0))
-			return pivot.dist(a) > pivot.dist(b);
-		return pivot.angle(a) < pivot.angle(b);
-	}
-};
 
 }
