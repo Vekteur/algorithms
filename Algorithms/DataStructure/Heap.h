@@ -34,8 +34,7 @@ private:
 
 public:
 	Heap(const std::vector<int>& a = {}, std::function<bool(T, T)> comp = std::less<T>())
-		: a(a), comp(comp) {
-
+			: a(a), comp(comp) {
 		for (int i = parent(int(a.size()) - 1); i >= 0; --i)
 			heapify(i);
 	}

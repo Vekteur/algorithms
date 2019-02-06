@@ -254,5 +254,8 @@
     <ClInclude Include="Geometry\Segment.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Dynamic\LIS.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

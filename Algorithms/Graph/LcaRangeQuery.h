@@ -70,7 +70,6 @@ private:
 	}
 
 	void buildMasks() {
-
 		blockMask.resize(blockCount);
 		for (int block = 0; block < blockCount; ++block) {
 			int mask = 0;
