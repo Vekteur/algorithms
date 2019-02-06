@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "Dynamic/Knapsack.h"
+#include "Dynamic/MinimumCoins.h"
 #include "Dynamic/LongestIncreasingSubsequence.h"
 #include "Dynamic/LongestCommonSubsequence.h"
 #include "Dynamic/EditDistance.h"
@@ -14,6 +15,9 @@ TEST_CASE("Dynamic") {
 		vector<KnapsackObject> objs{ {3, 5}, {2, 3}, {2, 3}, {1, 2} };
 		REQUIRE(knapsack(objs, 5) == 8);
 		REQUIRE(knapsack(objs, 6) == 10);
+	}
+	SECTION("Minimum coins problem") {
+		REQUIRE(minimumCoins({ 1, 3, 4 }, 6) == 2);
 	}
 	SECTION("Longest increasing subsequence") {
 		REQUIRE(longestIncreasingSubsequence({ 5, 1, 3, 8, 4, 2, 7 }) == 4);

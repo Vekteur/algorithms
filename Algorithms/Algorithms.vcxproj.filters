@@ -263,5 +263,8 @@
     <ClInclude Include="Dynamic\EditDistance.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Dynamic\MinimumCoins.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
