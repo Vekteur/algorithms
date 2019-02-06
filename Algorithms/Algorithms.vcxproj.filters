@@ -254,7 +254,13 @@
     <ClInclude Include="Geometry\Segment.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Dynamic\LIS.h">
+    <ClInclude Include="Dynamic\LongestCommonSubsequence.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Dynamic\LongestIncreasingSubsequence.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Dynamic\EditDistance.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

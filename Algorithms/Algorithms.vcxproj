@@ -135,7 +135,9 @@
     <ClInclude Include="DataStructure\SparseTable.h" />
     <ClInclude Include="DataStructure\SqrtArray.h" />
     <ClInclude Include="DataStructure\SumArray.h" />
-    <ClInclude Include="Dynamic\LIS.h" />
+    <ClInclude Include="Dynamic\EditDistance.h" />
+    <ClInclude Include="Dynamic\LongestIncreasingSubsequence.h" />
+    <ClInclude Include="Dynamic\LongestCommonSubsequence.h" />
     <ClInclude Include="Geometry\Segment.h" />
     <ClInclude Include="Graph\2-SAT.h" />
     <ClInclude Include="Graph\CartesianTree.h" />

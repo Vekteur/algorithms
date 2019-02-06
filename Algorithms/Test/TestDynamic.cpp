@@ -3,7 +3,8 @@
 #include <iostream>
 
 #include "Dynamic/Knapsack.h"
-#include "Dynamic/LIS.h"
+#include "Dynamic/LongestIncreasingSubsequence.h"
+#include "Dynamic/EditDistance.h"
 
 using namespace std;
 
@@ -17,5 +18,8 @@ TEST_CASE("Dynamic") {
 		REQUIRE(longestIncreasingSubsequence({ 5, 1, 3, 8, 4, 2, 7 }) == 4);
 		REQUIRE(longestIncreasingSubsequence({ 1, 2, 3, 4 }) == 4);
 		REQUIRE(longestIncreasingSubsequence({ 4, 3, 2, 1 }) == 1);
+	}
+	SECTION("Edit distance") {
+		REQUIRE(editDistance({0, 2, 3, 5}, {1, 2, 3, 4, 5}) == 2);
 	}
 }
