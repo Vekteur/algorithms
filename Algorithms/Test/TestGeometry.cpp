@@ -6,6 +6,7 @@
 #include "Geometry/Line.h"
 #include "Geometry/Segment.h"
 #include "Geometry/Polygon.h"
+#include "Geometry/ClosestPoints.h"
 
 using namespace std;
 
@@ -71,5 +72,9 @@ TEST_CASE("Geometry") {
 		p.points.push_back(r);
 		REQUIRE(!p.isConvex());
 		REQUIRE(p.convexHull().size() == 4);
+	}
+	SECTION("Closest pair of points") {
+		REQUIRE(closestPoints({ {2, 5}, {4, 6}, {4, 3}, {3, 0}, {1, 2} }) == Approx(sqrt(5)));
+		REQUIRE(closestPoints({ {0, 1}, {1, 0}, {0, -1}, {-1, 0} }) == Approx(sqrt(2)));
 	}
 }

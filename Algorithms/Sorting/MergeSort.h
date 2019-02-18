@@ -5,33 +5,34 @@
 
 namespace {
 void mergeSort(std::vector<int>& a) {
-	auto merge = [&a](int l, int mid, int r) {
-		std::vector<int> b;
-		b.reserve(r - l + 1);
-		int i = l, j = mid + 1;
-		while (i <= mid && j <= r) {
+	int n = a.size();
+	std::vector<int> buf(n);
+	auto merge = [&a, &buf](int l, int mid, int r) {
+		int i = l, j = mid;
+		int buf_i = l;
+		while (i < mid && j < r) {
 			if (a[i] <= a[j])
-				b.push_back(a[i++]);
+				buf[buf_i++] = a[i++];
 			else
-				b.push_back(a[j++]);
+				buf[buf_i++] = a[j++];
 		}
-		while (i <= mid)
-			b.push_back(a[i++]);
-		while (j <= r)
-			b.push_back(a[j++]);
-		for (int k = 0; k < int(b.size()); ++k)
-			a[k + l] = b[k];
+		while (i < mid)
+			buf[buf_i++] = a[i++];
+		while (j < r)
+			buf[buf_i++] = a[j++];
+		for (int k = l; k < r; ++k)
+			a[k] = buf[k];
 	};
 
 	std::function<void(int, int)> mergeSortRec = [&mergeSortRec, &merge, &a](int l, int r) {
-		if (l == r)
+		if (r - l <= 1)
 			return;
 		int mid = l + (r - l) / 2;
 		mergeSortRec(l, mid);
-		mergeSortRec(mid + 1, r);
+		mergeSortRec(mid, r);
 		merge(l, mid, r);
 	};
 
-	mergeSortRec(0, int(a.size()) - 1);
+	mergeSortRec(0, n);
 }
 }

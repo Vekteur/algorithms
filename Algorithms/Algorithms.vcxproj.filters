@@ -266,5 +266,8 @@
     <ClInclude Include="Dynamic\MinimumCoins.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Geometry\ClosestPoints.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
