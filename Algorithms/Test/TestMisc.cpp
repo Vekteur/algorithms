@@ -5,6 +5,7 @@
 
 #include "Misc/Subsets.h"
 #include "Misc/Permutations.h"
+#include "Misc/TwoSum.h"
 
 #include "Math/BasicMath.h"
 
@@ -20,5 +21,9 @@ TEST_CASE("Miscellaneous algorithms") {
 	SECTION("Permutations") {
 		REQUIRE(permutations(a).size() == fact(a.size()));
 		REQUIRE(permutations(a).size() == 5040);
+	}
+	SECTION("2Sum") {
+		REQUIRE(twoSum({ 1, 4, 5, 6, 7, 9, 9 }, 12));
+		REQUIRE(!twoSum({ 1, 4, 5, 6, 7, 9, 9 }, 4));
 	}
 }

@@ -272,5 +272,8 @@
     <ClInclude Include="Dynamic\SubsetSum.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Misc\TwoSum.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

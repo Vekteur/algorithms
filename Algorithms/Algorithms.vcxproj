@@ -185,6 +185,7 @@
     <ClInclude Include="Math\TortoiseAndHare.h" />
     <ClInclude Include="Misc\Permutations.h" />
     <ClInclude Include="Misc\Subsets.h" />
+    <ClInclude Include="Misc\TwoSum.h" />
     <ClInclude Include="Sorting\BasicSorting.h" />
     <ClInclude Include="Sorting\BinarySearch.h" />
     <ClCompile Include="Test\TestGeometry.cpp" />

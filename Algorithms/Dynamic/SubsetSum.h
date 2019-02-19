@@ -4,6 +4,7 @@
 #include <bitset>
 #include <tuple>
 
+// Choose N sufficiently large such that N >= sum + 1
 template<int N>
 bool subsetSum(const std::vector<int>& objs, int sum) {
 	std::bitset<N> bs(1);
@@ -17,6 +18,7 @@ struct SubsetObjects {
 	int m; // Multiplicity
 };
 
+// Choose N sufficiently large such that N >= sum + 1
 template<int N>
 bool multiplicitySubsetSum(const std::vector<SubsetObjects>& objs, int sum) {
 	std::bitset<N> bs(1);
