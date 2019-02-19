@@ -3,7 +3,7 @@
 #include <vector>
 #include <stack>
 
-std::vector<int> nearestSmallerValues(std::vector<int> a) {
+std::vector<int> nearestSmallerValues(const std::vector<int>& a) {
 	int n = a.size();
 	std::vector<int> nearest(n, -1);
 	std::stack<int> st;

@@ -7,6 +7,7 @@
 #include "Misc/Permutations.h"
 #include "Misc/TwoSum.h"
 #include "Misc/NearestSmallerValues.h"
+#include "Misc/SlidingWindow.h"
 
 #include "Math/BasicMath.h"
 
@@ -28,6 +29,10 @@ TEST_CASE("Miscellaneous algorithms") {
 		REQUIRE(!twoSum({ 1, 4, 5, 6, 7, 9, 9 }, 4));
 	}
 	SECTION("Nearest smaller values") {
-		REQUIRE(nearestSmallerValues({ 0, 8, 4, 12, 2, 40, 6, 14 }) == vector<int>{ -1, 0, 0, 2, 0, 4, 4, 6 });
+		REQUIRE(nearestSmallerValues({ 0, 8, 4, 12, 2, 40, 6, 14 }) == 
+				vector<int>{ -1, 0, 0, 2, 0, 4, 4, 6 });
+	}
+	SECTION("Sliding window minimum") {
+		REQUIRE(slidingWindowMinimum({1, 2, 6, 2, 5, 4, 3}, 3) == vector<int>{0, 3, 3, 3, 6});
 	}
 }
