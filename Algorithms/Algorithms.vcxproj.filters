@@ -269,5 +269,8 @@
     <ClInclude Include="Geometry\ClosestPoints.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Dynamic\SubsetSum.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

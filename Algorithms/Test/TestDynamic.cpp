@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "Dynamic/Knapsack.h"
+#include "Dynamic/SubsetSum.h"
 #include "Dynamic/MinimumCoins.h"
 #include "Dynamic/LongestIncreasingSubsequence.h"
 #include "Dynamic/LongestCommonSubsequence.h"
@@ -21,6 +22,18 @@ TEST_CASE("Dynamic") {
 			vector<KnapsackObjects> objs{ {3, 5, 1}, {2, 3, 2}, {1, 2, 1} };
 			REQUIRE(multiplicityKnapsack(objs, 5) == 8);
 			REQUIRE(multiplicityKnapsack(objs, 6) == 10);
+		}
+	}
+	SECTION("Subset sum") {
+		SECTION("Classic") {
+			vector<int> objs{ 3, 4, 4, 6 };
+			REQUIRE(subsetSum<16>(objs, 13));
+			REQUIRE(!subsetSum<16>(objs, 12));
+		}
+		SECTION("Multiplicity") {
+			vector<SubsetObjects> objs{ {3, 1}, {4, 2}, {6, 1} };
+			REQUIRE(multiplicitySubsetSum<16>(objs, 13));
+			REQUIRE(!multiplicitySubsetSum<16>(objs, 12));
 		}
 	}
 	SECTION("Minimum coins problem") {
