@@ -8,6 +8,7 @@
 #include "Misc/TwoSum.h"
 #include "Misc/NearestSmallerValues.h"
 #include "Misc/SlidingWindow.h"
+#include "Misc/MeetInTheMiddle.h"
 
 #include "Math/BasicMath.h"
 
@@ -34,5 +35,10 @@ TEST_CASE("Miscellaneous algorithms") {
 	}
 	SECTION("Sliding window minimum") {
 		REQUIRE(slidingWindowMinimum({1, 2, 6, 2, 5, 4, 3}, 3) == vector<int>{0, 3, 3, 3, 6});
+	}
+	SECTION("Meet in the middle knapsack") {
+		vector<KnapsackObject> objs{ {3, 5}, {2, 3}, {2, 3}, {1, 2} };
+		REQUIRE(meetInTheMiddleKnapsack(objs, 5) == 8);
+		REQUIRE(meetInTheMiddleKnapsack(objs, 6) == 10);
 	}
 }

@@ -183,6 +183,7 @@
     <ClInclude Include="Math\Sieve.h" />
     <ClInclude Include="Math\Simplex.h" />
     <ClInclude Include="Math\TortoiseAndHare.h" />
+    <ClInclude Include="Misc\MeetInTheMiddle.h" />
     <ClInclude Include="Misc\NearestSmallerValues.h" />
     <ClInclude Include="Misc\Permutations.h" />
     <ClInclude Include="Misc\SlidingWindow.h" />
