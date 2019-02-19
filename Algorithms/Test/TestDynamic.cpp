@@ -12,9 +12,16 @@ using namespace std;
 
 TEST_CASE("Dynamic") {
 	SECTION("Knapsack") {
-		vector<KnapsackObject> objs{ {3, 5}, {2, 3}, {2, 3}, {1, 2} };
-		REQUIRE(knapsack(objs, 5) == 8);
-		REQUIRE(knapsack(objs, 6) == 10);
+		SECTION("Classic") {
+			vector<KnapsackObject> objs{ {3, 5}, {2, 3}, {2, 3}, {1, 2} };
+			REQUIRE(knapsack(objs, 5) == 8);
+			REQUIRE(knapsack(objs, 6) == 10);
+		}
+		SECTION("Multiplicity") {
+			vector<KnapsackObjects> objs{ {3, 5, 1}, {2, 3, 2}, {1, 2, 1} };
+			REQUIRE(multiplicityKnapsack(objs, 5) == 8);
+			REQUIRE(multiplicityKnapsack(objs, 6) == 10);
+		}
 	}
 	SECTION("Minimum coins problem") {
 		REQUIRE(minimumCoins({ 1, 3, 4 }, 6) == 2);
@@ -29,6 +36,6 @@ TEST_CASE("Dynamic") {
 		REQUIRE(longestCommonSubsequence({ 1, 2, 3 }, { 3, 4, 5 }) == 1);
 	}
 	SECTION("Edit distance") {
-		REQUIRE(editDistance({0, 2, 3, 5}, {1, 2, 3, 4, 5}) == 2);
+		REQUIRE(editDistance({ 0, 2, 3, 5 }, { 1, 2, 3, 4, 5 }) == 2);
 	}
 }
