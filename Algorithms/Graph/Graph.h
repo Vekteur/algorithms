@@ -4,7 +4,7 @@
 #include <vector>
 #include <map>
 
-#include "Math/Mat.h"
+#include "Math/Matrix.h"
 
 struct DefaultLabel { };
 
@@ -84,8 +84,8 @@ struct MappedAdjList {
 };
 
 template<typename L = DefaultLabel>
-struct AdjMat : Mat<L> {
-	AdjMat(int n = 0, L defaultValue = L()) : Mat<L>(n, defaultValue) { }
+struct AdjMat : Matrix<L> {
+	AdjMat(int n = 0, L defaultValue = L()) : Matrix<L>(n, defaultValue) { }
 
 	void setEdge(int row, int col, L label = L()) {
 		(*this)(row, col) = label;

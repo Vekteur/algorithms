@@ -176,12 +176,13 @@
     <ClInclude Include="Math\Combinatorics.h" />
     <ClInclude Include="Math\FastFourier.h" />
     <ClInclude Include="Math\GaussElimination.h" />
-    <ClInclude Include="Math\Mat.h" />
     <ClInclude Include="Math\Matrix.h" />
+    <ClInclude Include="Math\MatrixPower.h" />
     <ClInclude Include="Math\Modular.h" />
     <ClInclude Include="Math\Prime.h" />
     <ClInclude Include="Math\Sieve.h" />
     <ClInclude Include="Math\Simplex.h" />
+    <ClInclude Include="Math\Strassen.h" />
     <ClInclude Include="Math\TortoiseAndHare.h" />
     <ClInclude Include="Misc\MeetInTheMiddle.h" />
     <ClInclude Include="Misc\NearestSmallerValues.h" />

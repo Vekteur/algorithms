@@ -116,9 +116,6 @@
     <ClInclude Include="Graph\BridgeAndArticulation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Math\Mat.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Sorting\BinarySearch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -165,9 +162,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Math\GaussElimination.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Math\Matrix.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Graph\2-SAT.h">
@@ -282,6 +276,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Misc\MeetInTheMiddle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\MatrixPower.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Matrix.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Strassen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -7,7 +7,8 @@
 
 #include "Math/BasicMath.h"
 #include "Math/Sieve.h"
-#include "Math/Matrix.h"
+#include "Math/MatrixPower.h"
+#include "Math/Strassen.h"
 #include "Math/TortoiseAndHare.h"
 #include "Math/Prime.h"
 #include "Math/Modular.h"
@@ -77,10 +78,20 @@ TEST_CASE("Math") {
 		REQUIRE(sol.m == lcm(6, lcm(3, 5)));
 	}
 	SECTION("Matrix") {
-		Mat<int> fib{ 2, 1 };
-		fib(0, 0) = 0;
-		REQUIRE(power(fib, 10)(0, 1) == 55);
-		REQUIRE(power(fib, 20)(0, 1) == 6765);
+		SECTION("Power") {
+			Matrix<int> fib(2, 1);
+			fib(0, 0) = 0;
+			REQUIRE(power(fib, 10)(0, 1) == 55);
+			REQUIRE(power(fib, 20)(0, 1) == 6765);
+		}
+		SECTION("Strassen's algorithm") {
+			int n = 4;
+			Matrix<int> m(n);
+			for (int i = 0; i < n; ++i)
+				for (int j = 0; j < n; ++j)
+					m(i, j) = i * (i + 1) - 2 * j;
+			REQUIRE(strassen(m, m) == m * m);
+		}
 	}
 	SECTION("Tortoise and hare") {
 		vector<int> next{ 1, 2, 3, 4, 5, 3 };
