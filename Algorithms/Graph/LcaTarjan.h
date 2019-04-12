@@ -17,7 +17,7 @@ std::vector<int> lcaTarjanOffline(const AdjList<L>& g, int root, const std::vect
 		otherInQuery[q.b].push_back({ q.a, i });
 	}
 	std::vector<int> vis(g.size(), false);
-	std::vector<int> setAncestor(g.size()); // unionAncestor[uf.find(u)] = node with least depth in the set of u
+	std::vector<int> setAncestor(g.size()); // setAncestor[uf.find(u)] = node with least depth in the set of u
 	for (int i = 0; i < g.size(); ++i)
 		setAncestor[i] = i;
 	UnionFind uf(g.size());

@@ -50,7 +50,7 @@ std::vector<std::vector<int>> connectedComponents(const AdjList<L>& g) {
 }
 
 template<typename L>
-AdjList<L> invertAdjList(const AdjList<L> g) {
+AdjList<L> invertAdjList(const AdjList<L>& g) {
 	AdjList<L> gInv{ g.size() };
 	for (int u = 0; u < g.size(); ++u) {
 		for (Edge<L> v : g.adj[u]) {

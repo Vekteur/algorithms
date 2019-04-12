@@ -20,10 +20,10 @@ struct SuffixArray {
 	std::vector<int> pInv;
 	SparseTable<int> st;
 
-	std::tuple<std::vector<int>, std::vector<std::vector<int>>> 
-		sortCyclicShifts(const std::string& s, int maxLog, char minChar = 'a', int nbChars = 26) {
-
+	std::tuple<std::vector<int>, std::vector<std::vector<int>>>
+		sortCyclicShifts(const std::string& s, int maxLog, char minChar, int nbChars) {
 		int n = int(s.size());
+
 		std::vector<int> p(n);
 		{
 			std::vector<int> cnt(nbChars, 0);
@@ -34,7 +34,7 @@ struct SuffixArray {
 			for (int i = n - 1; i >= 0; --i)
 				p[--cnt[s[i] - minChar]] = i;
 		}
-		
+
 		int classesNb;
 		std::vector<std::vector<int>> c(maxLog + 1, std::vector<int>(n));
 		{
@@ -49,24 +49,22 @@ struct SuffixArray {
 		}
 
 		for (int h = 0; ; ++h) {
-			// pn = permutation of first half
-			std::vector<int> pn(n);
-			for (int i = 0; i < n; ++i) {
-				pn[i] = p[i] - (1 << h);
-				if (pn[i] < 0)
-					pn[i] += n;
-			}
-
-			// Sort first half with stable counting sort
+			int half = 1 << h;
+			// Sort by first half with stable counting sort
 			std::vector<int> cnt(classesNb, 0);
 			for (int i = 0; i < n; ++i)
 				++cnt[c[h][i]];
 			for (int i = 1; i < classesNb; ++i)
 				cnt[i] += cnt[i - 1];
-			for (int i = n - 1; i >= 0; --i)
-				p[--cnt[c[h][pn[i]]]] = pn[i];
+			std::vector<int> pCopy = p;
+			for (int i = n - 1; i >= 0; --i) {
+				int firstHalf = pCopy[i] - half;
+				if (firstHalf < 0)
+					firstHalf += n;
+				p[--cnt[c[h][firstHalf]]] = firstHalf;
+			}
 
-			if ((1 << (h + 1)) >= n)
+			if (2 * half >= n)
 				break;
 
 			std::vector<int> cn(n); // Next sorted equivalence classes
@@ -74,10 +72,11 @@ struct SuffixArray {
 			cn[p[0]] = classes;
 			for (int i = 1; i < n; ++i) {
 				// Next classes are equal if the first and second half are equal
-				int mid1 = (p[i] + (1 << h)) % n, mid2 = (p[i - 1] + (1 << h)) % n;
-				if (c[h][p[i]] != c[h][p[i - 1]] || c[h][mid1] != c[h][mid2])
+				int curr = p[i], prev = p[i - 1];
+				int secHalfCurr = (curr + half) % n, secHalfPrev = (prev + half) % n;
+				if (c[h][curr] != c[h][prev] || c[h][secHalfCurr] != c[h][secHalfPrev])
 					++classes;
-				cn[p[i]] = classes;
+				cn[curr] = classes;
 			}
 			classesNb = classes + 1;
 			c[h + 1] = std::move(cn);
@@ -103,15 +102,16 @@ struct SuffixArray {
 		return lcp;
 	}
 
-	SuffixArray(const std::string& text, char minChar = 'a', int nbChars = 26)
+	SuffixArray(const std::string& text, char minChar = 'a', char maxChar = 'z')
 		: text(text), n(int(text.size())), logs(n + 1), st({}) {
 
 		logs[0] = -1;
 		for (int k = 1; k <= n; ++k)
-			logs[k] = logs[k >> 1] + 1;
+			logs[k] = logs[k / 2] + 1;
 
 		int maxLog = logs[n];
-		std::tie(p, c) = sortCyclicShifts(text + char(minChar - 1), maxLog, minChar - 1, nbChars + 1);
+		std::tie(p, c) = sortCyclicShifts(
+			text + char(minChar - 1), maxLog, minChar - 1, maxChar - minChar + 2);
 		p.erase(p.begin());
 		for (int i = 0; i <= maxLog; ++i)
 			c[i].pop_back();
@@ -130,10 +130,10 @@ struct SuffixArray {
 		// If the pattern is less than the smallest string, it must return -1
 		int start = binarySearch(-1, n - 1, [this, &pattern, &m](int i) {
 			return i != -1 && text.substr(p[i], std::min(m, n - p[i])) < pattern;
-		}) + 1;
+			}) + 1;
 		int end = binarySearch(-1, n - 1, [this, &pattern, &m](int i) {
 			return i != -1 && text.substr(p[i], std::min(m, n - p[i])) <= pattern;
-		});
+			});
 		for (int i = start; i <= end; ++i)
 			matches.push_back(p[i]);
 		return matches;

@@ -3,8 +3,6 @@
 #include <vector>
 #include "Constants.h"
 
-#include "Test/TestUtil.h"
-
 namespace {
 int longestIncreasingSubsequence(const std::vector<int>& a) {
 	int n = a.size();

@@ -84,7 +84,7 @@ TEST_CASE("Graph") {
 			REQUIRE(floydWarshallPath(next, 0, 3).size() == 3);
 			mat.setEdge(1, 2, { -4 });
 			tie(minDist, next) = floydWarshall(mat);
-			floydWarshallInfiniteSorthestPaths(minDist);
+			floydWarshallInfiniteShortestPaths(minDist);
 			REQUIRE(minDist(0, 3).w == -INF);
 		}
 		SECTION("Eulerian") {

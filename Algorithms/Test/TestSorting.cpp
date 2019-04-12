@@ -27,9 +27,9 @@ TEST_CASE("Sorting") {
 		vector<int> v{ 1, 2, 5, 6, 7, 4, -1 };
 		REQUIRE(ternarySearch(0, v.size() - 1, [&v](int x) { return v[x]; }) == 4);
 	}
-	std::vector<int> a{ 5, 8, 4, 4, 9, 6, 3 };
-	std::vector<int> expected = a;
-	std::sort(expected.begin(), expected.end());
+	vector<int> a{ 5, 8, 4, 4, 9, 6, 3 };
+	vector<int> expected = a;
+	sort(expected.begin(), expected.end());
 	SECTION("Bubble sort") {
 		bubbleSort(a);
 		REQUIRE(a == expected);

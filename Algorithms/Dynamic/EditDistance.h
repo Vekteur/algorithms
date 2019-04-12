@@ -2,9 +2,8 @@
 
 #include <vector>
 #include <algorithm>
-#include <Test/TestUtil.h>
 
-int editDistance(std::vector<int> a, std::vector<int> b) {
+int editDistance(const std::vector<int>& a, const std::vector<int>& b) {
 	int n = a.size(), m = b.size();
 	std::vector<std::vector<int>> d(n + 1, std::vector<int>(m + 1));
 	for (int i = 0; i <= n; ++i)

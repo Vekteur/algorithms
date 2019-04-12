@@ -287,5 +287,14 @@
     <ClInclude Include="Math\Strassen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Dynamic\MatrixChainMultiplication.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Dynamic\CountSubsequence.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Dynamic\WordBreak.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

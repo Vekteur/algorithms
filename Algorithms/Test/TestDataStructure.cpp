@@ -85,11 +85,11 @@ TEST_CASE("Data structures") {
 			struct Lazy { bool assigned = false; int assignment; int add = 0; };
 			LazySegmentTree<int, Lazy> st(arr, [](int a, int b) { return a + b; },
 				[](const Lazy& p, Lazy& c) {
-					if (p.assigned) { c.assigned = true; c.assignment = p.assignment; }
+					if (p.assigned) { c.assigned = true; c.assignment = p.assignment; c.add = 0; }
 					else { c.add += p.add; }
 				},
 				[](const int& t, const Lazy& l, int range) { 
-					return l.assigned ? (l.assignment * range) : (t + l.add * range); 
+					return (l.assigned ? (l.assignment * range) : t) + l.add * range;
 				}
 			);
 			REQUIRE(st.query(1, 6) == 24);

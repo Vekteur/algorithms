@@ -42,7 +42,7 @@ std::vector<int> floydWarshallPath(const AdjMat<L>& nextMat, int start, int end)
 }
 
 template<typename L>
-void floydWarshallInfiniteSorthestPaths(AdjMat<L>& mat) {
+void floydWarshallInfiniteShortestPaths(AdjMat<L>& mat) {
 	for (int k = 0; k < mat.size(); ++k)
 		for (int i = 0; i < mat.size(); ++i)
 			for (int j = 0; j < mat.size(); ++j)

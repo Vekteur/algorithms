@@ -7,7 +7,10 @@
 #include "Dynamic/MinimumCoins.h"
 #include "Dynamic/LongestIncreasingSubsequence.h"
 #include "Dynamic/LongestCommonSubsequence.h"
+#include "Dynamic/CountSubsequence.h"
 #include "Dynamic/EditDistance.h"
+#include "Dynamic/MatrixChainMultiplication.h"
+#include "Dynamic/WordBreak.h"
 
 using namespace std;
 
@@ -47,8 +50,18 @@ TEST_CASE("Dynamic") {
 	SECTION("Longest common subsequence") {
 		REQUIRE(longestCommonSubsequence({ 1, 2, 4, 5 }, { 2, 3, 4, 5, 6 }) == 3);
 		REQUIRE(longestCommonSubsequence({ 1, 2, 3 }, { 3, 4, 5 }) == 1);
+		REQUIRE(longestRepeatedSubsequence({ 1, 2, 1, 3, 4, 2, 4, 3 }) == 3);
+	}
+	SECTION("Count subsequence") {
+		REQUIRE(countSubsequence({ 1, 2, 1, 3, 2, 2, 3 }, { 1, 2, 3 }) == 6);
 	}
 	SECTION("Edit distance") {
 		REQUIRE(editDistance({ 0, 2, 3, 5 }, { 1, 2, 3, 4, 5 }) == 2);
+	}
+	SECTION("Matrix chain multiplication") {
+		REQUIRE(matrixChainMultiplication({ 10, 30, 5, 60 }) == 4500);
+	}
+	SECTION("Word break problem") {
+		REQUIRE(wordBreak("abcbcba", {"a", "b", "bc", "cb", "abc"}) == 5);
 	}
 }

@@ -5,7 +5,7 @@
 
 #include "Constants.h"
 
-int minimumCoins(std::vector<int> coins, int n) {
+int minimumCoins(const std::vector<int>& coins, int n) {
 	std::vector<int> dp(n + 1, INF);
 	dp[0] = 0;
 	for (int x = 1; x <= n; ++x) {
