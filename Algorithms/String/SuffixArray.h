@@ -163,3 +163,25 @@ struct SuffixArray {
 		return res;
 	}
 };
+
+std::string longestCommonSubstringSuffixArray(const std::string& s1,
+		const std::string& s2, char minChar = 'a', char maxChar = 'z') {
+	int n = s1.size(), m = s2.size();
+	std::string s = s1 + char(minChar - 1) + s2;
+	SuffixArray sa(s, minChar, maxChar);
+	int maxLcsLength = -1;
+	int maxLcsIndex = -1;
+	for (int i = 1; i < int(s.size()) - 1; ++i) {
+		int i1 = sa.p[i], i2 = sa.p[i + 1];
+		if (i1 > i2)
+			swap(i1, i2);
+		if (i1 < n && i2 > n) {
+			int l = sa.lcp[i];
+			if (l > maxLcsLength) {
+				maxLcsLength = l;
+				maxLcsIndex = i1;
+			}
+		}
+	}
+	return s1.substr(maxLcsIndex, maxLcsLength);
+}
