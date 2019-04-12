@@ -10,7 +10,7 @@
 
 template<typename T>
 AdjList<> buildCartesianTree(const std::vector<T>& a,
-	std::function<bool(T, T)> comp = std::less<T>()) {
+		std::function<bool(T, T)> comp = std::less<T>()) {
 
 	std::vector<int> preds(a.size(), -1);
 	std::stack<int> s;

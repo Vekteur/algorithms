@@ -296,5 +296,8 @@
     <ClInclude Include="Dynamic\WordBreak.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Sorting\RadixSort.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

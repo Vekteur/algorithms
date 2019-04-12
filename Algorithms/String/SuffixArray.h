@@ -174,7 +174,7 @@ std::string longestCommonSubstringSuffixArray(const std::string& s1,
 	for (int i = 1; i < int(s.size()) - 1; ++i) {
 		int i1 = sa.p[i], i2 = sa.p[i + 1];
 		if (i1 > i2)
-			swap(i1, i2);
+			std::swap(i1, i2);
 		if (i1 < n && i2 > n) {
 			int l = sa.lcp[i];
 			if (l > maxLcsLength) {

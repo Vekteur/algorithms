@@ -7,6 +7,7 @@
 #include "Sorting/BinarySearch.h"
 #include "Sorting/TernarySearch.h"
 #include "Sorting/BasicSorting.h"
+#include "Sorting/RadixSort.h"
 #include "Sorting/MergeSort.h"
 #include "Sorting/Quicksort.h"
 
@@ -45,6 +46,16 @@ TEST_CASE("Sorting") {
 	SECTION("Counting sort") {
 		countingSort(a, *max_element(a.begin(), a.end()));
 		REQUIRE(a == expected);
+	}
+	SECTION("Radix sort") {
+		SECTION("Bit by bit") {
+			radixSort<1>(a);
+			REQUIRE(a == expected);
+		}
+		SECTION("Byte by byte") {
+			radixSort<8>(a);
+			REQUIRE(a == expected);
+		}
 	}
 	SECTION("Merge sort") {
 		mergeSort(a);

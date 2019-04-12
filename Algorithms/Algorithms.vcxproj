@@ -199,6 +199,7 @@
     <ClCompile Include="Test\TestMath.cpp" />
     <ClInclude Include="Sorting\MergeSort.h" />
     <ClInclude Include="Sorting\Quicksort.h" />
+    <ClInclude Include="Sorting\RadixSort.h" />
     <ClInclude Include="Sorting\TernarySearch.h" />
     <ClInclude Include="String\KMP.h" />
     <ClInclude Include="String\StringHashing.h" />
