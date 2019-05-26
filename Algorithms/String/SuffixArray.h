@@ -150,6 +150,8 @@ struct SuffixArray {
 	}
 
 	int longestCommonPrefix(int i1, int i2) {
+		if (i1 == i2)
+			return n - i1;
 		i1 = pInv[i1], i2 = pInv[i2];
 		if (i1 > i2)
 			std::swap(i1, i2);

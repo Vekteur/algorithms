@@ -204,6 +204,7 @@
     <ClInclude Include="String\KMP.h" />
     <ClInclude Include="String\StringHashing.h" />
     <ClInclude Include="String\SuffixArray.h" />
+    <ClInclude Include="String\SuffixAutomaton.h" />
     <ClInclude Include="String\Z_Algorithm.h" />
     <ClInclude Include="Test\TestUtil.h" />
     <ClInclude Include="Test\ThirdParty\catch.hpp" />

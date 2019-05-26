@@ -30,7 +30,7 @@ std::vector<int> kmpMatch(const std::string& text, const std::string pattern) {
 	return matches;
 }
 
-std::vector<int> kmpMatchEachPrefix(const std::string& s) {
+std::vector<int> kmpCountMatchEachPrefix(const std::string& s) {
 	int n = int(s.size());
 	std::vector<int> countPfx(n + 1);
 	std::vector<int> kmp = kmpBuild(s);

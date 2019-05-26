@@ -19,7 +19,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Test\TestMath.cpp">
-      <Filter>Header Files</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Test\TestGeometry.cpp">
       <Filter>Source Files</Filter>
@@ -297,6 +297,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Sorting\RadixSort.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="String\SuffixAutomaton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
